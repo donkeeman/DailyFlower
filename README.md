@@ -3,6 +3,7 @@
 
 ## 사용 스택
 - `Vue.js`
-- `CSS3`
+- `Styled-components`
 - `TypeScript`
 - `Axios`
+- `Webpack`
