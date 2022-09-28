@@ -19,6 +19,13 @@ module.exports = {
         "comma-dangle": 0,
         indent: "off",
         "no-tabs": 0,
-        "space-before-function-paren": ["error", "never"],
+        "space-before-function-paren": [
+            "error",
+            {
+                anonymous: "always",
+                named: "never",
+                asyncArrow: "always",
+            },
+        ],
     },
-}
+};
