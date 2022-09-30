@@ -20,7 +20,7 @@ export default {};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 130px;
+    padding: 18px 130px;
     background-color: $WHITE;
     .logo {
         display: block;
@@ -50,9 +50,9 @@ export default {};
                 background-color: $BLACK;
             }
             a {
-                padding-top: 5px;
-                @include commonFont(18);
+                @include commonFont(20);
                 display: block;
+                padding-top: 3px;
             }
         }
     }
