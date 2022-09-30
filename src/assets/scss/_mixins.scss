@@ -11,8 +11,8 @@
         family: "GangwonEdu_OTFBoldA";
         size: $size + px;
     }
-    line-height: $size + px;
     color: $color;
+    line-height: calc($size + 4) + px;
 }
 
 @mixin a11yHidden() {
@@ -22,4 +22,12 @@
     height: 1px;
     margin: -1px;
     overflow: hidden;
+}
+
+@mixin container($width, $verticalMargin) {
+    width: $width + px;
+    background-color: $WHITE;
+    border-radius: 10px;
+    text-align: center;
+    margin: $verticalMargin + px auto;
 }
