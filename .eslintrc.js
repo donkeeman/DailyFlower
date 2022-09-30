@@ -19,6 +19,7 @@ module.exports = {
         "comma-dangle": 0,
         indent: "off",
         "no-tabs": 0,
+        "vue/comment-directive": 0,
         "space-before-function-paren": [
             "error",
             {
