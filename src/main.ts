@@ -5,12 +5,11 @@ import store from "./store";
 import axios from "axios";
 
 Vue.config.productionTip = false;
-Vue.prototype.$axios = axios;
 axios.defaults.baseURL =
-	"http://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlowerView01";
+    "http://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlowerView01";
 
 new Vue({
-	router,
-	store,
-	render: (h) => h(App),
+    router,
+    store,
+    render: (h) => h(App),
 }).$mount("#app");
