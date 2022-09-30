@@ -1,14 +1,17 @@
 <template>
     <div id="app">
         <Header></Header>
+        <TodayFlower></TodayFlower>
     </div>
 </template>
 
 <script lang="ts">
 import Header from "@/components/Header.vue";
+import TodayFlower from "./components/TodayFlower.vue";
 export default {
     components: {
         Header,
+        TodayFlower,
     },
 };
 </script>
