@@ -1,0 +1,29 @@
+h1,
+h2,
+div,
+p,
+strong {
+    color: inherit;
+    font-size: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+a,
+a:visited,
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+button:hover,
+button:active {
+    background-color: inherit;
+    outline: none;
+}

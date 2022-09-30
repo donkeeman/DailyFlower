@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "GangwonEdu_OTFBoldA";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff")
+        format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@mixin commonFont($color: $BLACK, $size: 10px) {
+    color: $color;
+    font: {
+        family: "GangwonEdu_OTFBoldA";
+        size: $size;
+    }
+}
+
+@mixin a11yHidden() {
+    position: absolute;
+    clip: rect(0 0 0 0);
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+}
