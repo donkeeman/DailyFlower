@@ -6,12 +6,13 @@
     font-style: normal;
 }
 
-@mixin commonFont($color: $BLACK, $size: 10px) {
-    color: $color;
+@mixin commonFont($size: 10, $color: $BLACK) {
     font: {
         family: "GangwonEdu_OTFBoldA";
-        size: $size;
+        size: $size + px;
     }
+    line-height: $size + px;
+    color: $color;
 }
 
 @mixin a11yHidden() {
