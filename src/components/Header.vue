@@ -1,14 +1,16 @@
 <template>
-    <div class="header">
+    <header class="header">
         <h1 class="title">나날꽃</h1>
         <router-link to="/" class="logo">
             <img src="@/assets/img/logo.png" alt="logo" />
         </router-link>
-        <ul class="nav">
-            <li><router-link to="/search">날짜로 검색하기</router-link></li>
-            <li><router-link to="/info/1">랜덤으로 보기</router-link></li>
-        </ul>
-    </div>
+        <nav>
+            <ul class="nav">
+                <li><router-link to="/search">날짜로 검색하기</router-link></li>
+                <li><router-link to="/info/1">랜덤으로 보기</router-link></li>
+            </ul>
+        </nav>
+    </header>
 </template>
 
 <script lang="ts">
@@ -20,7 +22,7 @@ export default {};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 130px;
+    padding: 18px 10%;
     background-color: $WHITE;
     .logo {
         display: block;
@@ -45,9 +47,10 @@ export default {};
                 left: 0;
                 content: "";
                 margin-left: -20px;
-                width: 1px;
-                height: 90%;
+                width: 1.5px;
+                height: 80%;
                 background-color: $BLACK;
+                margin-top: 2px;
             }
             a {
                 @include commonFont(20);
