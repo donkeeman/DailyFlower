@@ -43,8 +43,8 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async [GET_FLOWER_DATA]({ commit }, dateNo) {
-            const queryString = `?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dateNo}`;
+        async [GET_FLOWER_DATA]({ commit }, dataNo) {
+            const queryString = `?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dataNo}`;
             try {
                 const response = await axios.get(
                     axios.defaults.baseURL + queryString

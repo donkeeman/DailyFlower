@@ -9,7 +9,7 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
     { path: "/", component: TodayFlower },
     { path: "/search", component: FlowerSearch },
-    { path: "/info/:index", component: FlowerInfo },
+    { path: "/info/:dataNo", component: FlowerInfo },
 ];
 
 const router = new VueRouter({
