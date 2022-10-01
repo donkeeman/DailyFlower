@@ -22,11 +22,12 @@ export default {};
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 10%;
+    padding: 12px 10%;
     background-color: $WHITE;
     .logo {
         display: block;
         width: 120px;
+        height: 40px;
         img {
             width: 100%;
         }
@@ -38,6 +39,7 @@ export default {};
         display: flex;
         align-items: center;
         gap: 40px;
+        padding-top: 7px;
         li {
             position: relative;
             &:not(:first-child)::before {
@@ -50,12 +52,10 @@ export default {};
                 width: 1.5px;
                 height: 80%;
                 background-color: $BLACK;
-                margin-top: 2px;
             }
             a {
                 @include commonFont(20);
                 display: block;
-                padding-top: 3px;
             }
         }
     }
