@@ -3,13 +3,12 @@
         <Header></Header>
         <main class="main">
             <template v-if="getPath === ''">
-                <TodayFlower></TodayFlower>
+                <TodayFlower />
             </template>
             <template v-else-if="getPath === 'info'">
-                <FlowerInfo></FlowerInfo>
+                <FlowerInfo />
             </template>
         </main>
-
         <!-- 검색, 검색 결과 페이지 추가 -->
     </div>
 </template>
@@ -35,7 +34,7 @@ export default {
 <style lang="scss">
 #app {
     @include commonFont;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     background-color: $BACKGROUND_SPRING;
 }
