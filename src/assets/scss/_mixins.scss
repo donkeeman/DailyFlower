@@ -25,7 +25,8 @@
 }
 
 @mixin container($width, $verticalMargin) {
-    width: $width + px;
+    box-sizing: border-box;
+    max-width: $width + px;
     background-color: $WHITE;
     border-radius: 10px;
     text-align: center;

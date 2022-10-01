@@ -39,4 +39,9 @@ export default {
     height: 100vh;
     background-color: $BACKGROUND_SPRING;
 }
+
+.main {
+    box-sizing: border-box;
+    padding: 0 20px;
+}
 </style>
