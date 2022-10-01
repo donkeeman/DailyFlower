@@ -1,6 +1,7 @@
 body,
 h1,
 h2,
+h3,
 div,
 p,
 strong,
@@ -11,6 +12,16 @@ a {
     font-size: 10px;
     margin: 0;
     padding: 0;
+}
+
+body,
+div,
+section,
+article,
+header,
+nav,
+main {
+    box-sizing: border-box;
 }
 
 ul,

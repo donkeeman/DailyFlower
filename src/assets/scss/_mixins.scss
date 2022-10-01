@@ -6,9 +6,18 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: "ChosunGs";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGs.woff")
+        format("woff");
+    font-weight: normal;
+    font-style: normal;
+    unicode-range: U+4E00-9FEA;
+}
+
 @mixin commonFont($size: 10, $color: $BLACK) {
     font: {
-        family: "GangwonEdu_OTFBoldA";
+        family: "ChosunGs", "GangwonEdu_OTFBoldA";
         size: $size + px;
     }
     color: $color;
@@ -25,10 +34,10 @@
 }
 
 @mixin container($width, $verticalMargin) {
-    box-sizing: border-box;
     max-width: $width + px;
+    height: 632px;
+    overflow-y: auto;
     background-color: $WHITE;
     border-radius: 10px;
-    text-align: center;
     margin: $verticalMargin + px auto;
 }
