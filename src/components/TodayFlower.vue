@@ -38,24 +38,24 @@ export default {
     padding: 44px 8% 32px;
     height: 100%;
     .imgWrapper {
-        margin: 16px auto 20px;
+        margin: 22px auto 26px;
         width: 405px;
         img {
             width: 100%;
         }
     }
     h2 {
-        @include commonFont(32, $FONT_SPRING);
+        @include setFont(32, $FONT_SPRING);
     }
     .flowerName {
-        @include commonFont(40, $FONT_SPRING);
+        @include setFont(40, $FONT_SPRING);
     }
     .flowerLanguage {
-        @include commonFont(24, $FONT_SPRING);
+        @include setFont(24, $FONT_SPRING);
         margin: 12px auto 44px;
     }
     .infoLink {
-        @include commonFont(20, $FONT_SPRING);
+        @include setFont(20, $FONT_SPRING);
         text-decoration: underline;
     }
 }
