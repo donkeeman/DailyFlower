@@ -15,12 +15,9 @@
     unicode-range: U+4E00-9FEA;
 }
 
-@mixin commonFont($size: 10, $color: $BLACK) {
-    font: {
-        family: "ChosunGs", "GangwonEdu_OTFBoldA";
-        size: $size + px;
-    }
+@mixin setFont($size: 10, $color: $BLACK) {
     color: $color;
+    font-size: $size + px;
     line-height: calc($size + 4) + px;
 }
 

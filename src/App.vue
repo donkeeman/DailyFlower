@@ -33,10 +33,10 @@ export default {
 
 <style lang="scss">
 #app {
-    @include commonFont;
     width: 100%;
     height: 100vh;
     background-color: $BACKGROUND_SPRING;
+    font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
 }
 
 .main {

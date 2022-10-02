@@ -71,7 +71,7 @@ export default {
     @include container(1240, 10);
     padding: 48px 5% 36px;
     .date {
-        @include commonFont(32, $FONT_SPRING);
+        @include setFont(32, $FONT_SPRING);
         text-align: center;
     }
     .upperWrapper {
@@ -100,13 +100,13 @@ export default {
             display: flex;
             gap: 12px;
             .flowerName {
-                @include commonFont(40, $FONT_SPRING);
+                @include setFont(40, $FONT_SPRING);
             }
             .subNameWrapper {
                 display: flex;
                 flex-direction: column;
                 .subName {
-                    @include commonFont(20, $FONT_SPRING);
+                    @include setFont(20, $FONT_SPRING);
                     line-height: 100%;
                     &.sct {
                         line-height: 80%;
@@ -121,23 +121,23 @@ export default {
             margin: 10px 0 22px;
         }
         .flowerLanguage {
-            @include commonFont(26, $FONT_SPRING);
+            @include setFont(26, $FONT_SPRING);
             display: block;
             margin-bottom: 18px;
         }
         .flowerInfo {
-            @include commonFont(18);
+            @include setFont(18);
             word-break: keep-all;
             margin: 10px 0;
             line-height: 150%;
         }
     }
     .subTitle {
-        @include commonFont(24);
+        @include setFont(24);
         margin-top: 24px;
     }
     .subInfo {
-        @include commonFont(18);
+        @include setFont(18);
         word-break: keep-all;
         margin: 10px 0;
         padding-left: 20px;
