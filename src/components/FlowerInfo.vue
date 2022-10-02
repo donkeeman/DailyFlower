@@ -66,16 +66,13 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .infoContainer {
     @include container(1240, 10);
-    padding: 48px 8% 36px;
+    padding: 48px 5% 36px;
     .date {
         @include commonFont(32, $FONT_SPRING);
         text-align: center;
-    }
-    .a11yHidden {
-        @include a11yHidden();
     }
     .upperWrapper {
         display: flex;
@@ -86,12 +83,14 @@ export default {
             /* 추후 미디어쿼리로 이미지 사이즈와 레이아웃 변경하기 */
             width: 405px;
             height: 315px;
+            object-fit: cover;
             flex: 0 0 405px;
             .imgs {
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
+                height: 100%;
             }
         }
         .contentSection {
@@ -143,6 +142,64 @@ export default {
         margin: 10px 0;
         padding-left: 20px;
         line-height: 150%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .infoContainer {
+        .upperWrapper {
+            gap: 12px;
+            .imgWrapper {
+                width: 270px;
+                height: 210px;
+                flex: 0 1 270px;
+            }
+            .nameWrapper {
+                gap: 6px;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .infoContainer {
+        padding: 24px 5% 8px;
+        .upperWrapper {
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+            margin-top: 18px;
+            .imgWrapper {
+                width: 405px;
+                height: 315px;
+                gap: 0;
+                flex: 0 1 auto;
+            }
+            .nameWrapper {
+                flex-direction: column;
+                text-align: center;
+            }
+            .flowerLanguage {
+                text-align: center;
+            }
+            .contentSection {
+                text-align: center;
+                flex: 0 1 auto;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .infoContainer {
+        .upperWrapper {
+            .imgWrapper {
+                width: 270px;
+                height: 210px;
+                gap: 0;
+                flex: 0 1 auto;
+            }
+        }
     }
 }
 </style>

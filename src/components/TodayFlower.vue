@@ -7,10 +7,10 @@
         <div class="imgWrapper">
             <img :src="flowerData.imgArray[0]" alt="꽃 사진" />
         </div>
-        <strong class="flowerName" title="꽃 이름">
-            {{ flowerData.korName }}
-        </strong>
-        <p class="flowerLanguage" title="꽃말">" {{ flowerData.language }} "</p>
+        <h3 class="a11yHidden">꽃 이름</h3>
+        <strong class="flowerName">{{ flowerData.korName }}</strong>
+        <h3 class="a11yHidden">꽃말</h3>
+        <p class="flowerLanguage">" {{ flowerData.language }} "</p>
         <router-link :to="'/info/' + today.dateNo" class="infoLink">
             자세히 알아보기
         </router-link>
@@ -31,11 +31,12 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .todayContainer {
     @include container(900, 12);
     text-align: center;
-    padding: 44px 30px 32px;
+    padding: 44px 8% 32px;
+    height: 100%;
     .imgWrapper {
         margin: 16px auto 20px;
         width: 405px;
@@ -56,6 +57,18 @@ export default {
     .infoLink {
         @include commonFont(20, $FONT_SPRING);
         text-decoration: underline;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .todayContainer {
+        .imgWrapper {
+            margin: 16px auto 20px;
+            width: 270px;
+            img {
+                width: 100%;
+            }
+        }
     }
 }
 </style>

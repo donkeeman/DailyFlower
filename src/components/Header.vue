@@ -5,9 +5,13 @@
             <img src="@/assets/img/logo.png" alt="logo" />
         </router-link>
         <nav>
-            <ul class="nav">
+            <ul class="nav fullscreen">
                 <li><router-link to="/search">날짜로 검색하기</router-link></li>
                 <li><router-link to="/info/1">랜덤으로 보기</router-link></li>
+            </ul>
+            <ul class="nav mobile">
+                <li><router-link to="/search">검색</router-link></li>
+                <li><router-link to="/info/1">랜덤</router-link></li>
             </ul>
         </nav>
     </header>
@@ -36,7 +40,12 @@ export default {};
         @include a11yHidden();
     }
     .nav {
-        display: flex;
+        &.mobile {
+            display: none;
+        }
+        &.fullscreen {
+            display: flex;
+        }
         align-items: center;
         gap: 40px;
         padding-top: 7px;
@@ -56,6 +65,19 @@ export default {};
             a {
                 @include commonFont(20);
                 display: block;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .header {
+        .nav {
+            &.fullscreen {
+                display: none;
+            }
+            &.mobile {
+                display: flex;
             }
         }
     }

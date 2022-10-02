@@ -35,8 +35,7 @@
 
 @mixin container($width, $verticalMargin) {
     max-width: $width + px;
-    height: 632px;
-    overflow-y: auto;
+    height: 100%;
     background-color: $WHITE;
     border-radius: 10px;
     margin: $verticalMargin + px auto;

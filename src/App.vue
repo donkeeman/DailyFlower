@@ -42,5 +42,12 @@ export default {
 .main {
     box-sizing: border-box;
     padding: 0 20px;
+    display: flex;
+    align-items: center;
+    background-color: $BACKGROUND_SPRING;
+}
+
+.a11yHidden {
+    @include a11yHidden();
 }
 </style>
