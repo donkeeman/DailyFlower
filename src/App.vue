@@ -6,7 +6,9 @@
                 <TodayFlower />
             </template>
             <template v-else-if="getPath === 'info'">
-                <FlowerInfo />
+                <router-view :key="$route.fullPath">
+                    <FlowerInfo />
+                </router-view>
             </template>
         </main>
         <!-- 검색, 검색 결과 페이지 추가 -->

@@ -1,5 +1,11 @@
 <template>
     <article class="infoContainer">
+        <router-link class="link prev" :to="getPrevLink" title="이전"
+            >&lt;</router-link
+        >
+        <router-link class="link next" :to="getNextLink" title="다음"
+            >&gt;</router-link
+        >
         <h2 class="date">{{ flowerData.month }}월 {{ flowerData.day }}일</h2>
         <div class="upperWrapper">
             <div class="imgWrapper">
@@ -59,6 +65,20 @@ import { GET_FLOWER_DATA } from "@/store";
 export default {
     computed: {
         ...mapState(["flowerData"]),
+        getPrevLink(): string {
+            if (this.$route.params.dataNo === "1") {
+                return "/info/366";
+            } else {
+                return "/info/" + (parseInt(this.$route.params.dataNo) - 1);
+            }
+        },
+        getNextLink(): string {
+            if (this.$route.params.dataNo === "366") {
+                return "/info/1";
+            } else {
+                return "/info/" + (parseInt(this.$route.params.dataNo) + 1);
+            }
+        },
     },
     mounted(): void {
         this.$store.dispatch(GET_FLOWER_DATA, this.$route.params.dataNo);
@@ -70,6 +90,19 @@ export default {
 .infoContainer {
     @include container(1240, 10);
     padding: 48px 5% 36px;
+    position: relative;
+    .link {
+        @include setFont(128, $FONT_SPRING);
+        position: fixed;
+        top: 50%;
+        z-index: 100;
+        &.prev {
+            left: 40px;
+        }
+        &.next {
+            right: 40px;
+        }
+    }
     .date {
         @include setFont(32, $FONT_SPRING);
         text-align: center;
@@ -128,7 +161,7 @@ export default {
         .flowerInfo {
             @include setFont(18);
             word-break: keep-all;
-            margin: 10px 0;
+            margin-top: 10px;
             line-height: 150%;
         }
     }
