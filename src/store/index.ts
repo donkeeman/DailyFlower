@@ -7,7 +7,7 @@ Vue.use(Vuex);
 // 윤년인지 검사
 const monthArr = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30];
 
-const calculateDateNo = (month: number, day: number): number => {
+const calculateDataNo = (month: number, day: number): number => {
     return monthArr.slice(0, month + 1).reduce((a, b) => a + b, 0) + day;
 };
 
@@ -31,7 +31,7 @@ export default new Vuex.Store({
         today: {
             month: 0,
             day: 0,
-            dateNo: 0,
+            dataNo: 0,
         },
         flowerData: {
             month: 0,
@@ -54,7 +54,7 @@ export default new Vuex.Store({
             state.today = {
                 month: date.getMonth() + 1,
                 day: date.getDate(),
-                dateNo: calculateDateNo(date.getMonth(), date.getDate()),
+                dataNo: calculateDataNo(date.getMonth(), date.getDate()),
             };
         },
         [SET_FLOWER](state, data) {

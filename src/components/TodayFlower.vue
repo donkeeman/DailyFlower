@@ -11,7 +11,7 @@
         <strong class="flowerName">{{ flowerData.korName }}</strong>
         <h3 class="a11yHidden">꽃말</h3>
         <p class="flowerLanguage">" {{ flowerData.language }} "</p>
-        <router-link :to="'/info/' + today.dateNo" class="infoLink">
+        <router-link :to="'/info/' + today.dataNo" class="infoLink">
             자세히 알아보기
         </router-link>
     </article>
