@@ -11,11 +11,25 @@ const calculateDataNo = (month: number, day: number): number => {
     return monthArr.slice(0, month + 1).reduce((a, b) => a + b, 0) + day;
 };
 
-const breakLine = (str: string): string => {
-    return (str + " ")
-        .split(/\.[ ]+/g)
+const breakLine = (str: string): Array<string> => {
+    return str
+        ?.split(/다\. /g)
+        .map((elem, index, arr) => {
+            elem = elem.replace(/<[/]*p>|\r|\n|amp;/g, "");
+            if (index !== arr.length - 1) {
+                return elem + "다.";
+            } else {
+                return elem;
+            }
+        })
         .filter((elem) => elem !== "")
-        .join(".<br>");
+        .map((elem) => {
+            if (elem.slice(-1) !== ".") {
+                return elem + ".";
+            } else {
+                return elem;
+            }
+        });
 };
 
 const upperFirstChar = (str: string): string => {
@@ -97,24 +111,21 @@ export default new Vuex.Store({
                             .textContent
                     );
                 }
-                const content = (
-                    result.getElementsByTagName("fContent")[0].textContent + " "
-                )
-                    .split(/\.[ ]+/g)
-                    .map((elem) => elem.replace(/<[/]*p>|\r\n/g, ""))
-                    .filter((elem) => elem !== "")
-                    .slice(0, 3);
+                const content = breakLine(
+                    result.getElementsByTagName("fContent")[0]
+                        .textContent as string
+                );
                 const use = breakLine(
                     result.getElementsByTagName("fUse")[0].textContent as string
-                );
+                ).join("<br>");
                 const grow = breakLine(
                     result.getElementsByTagName("fGrow")[0]
                         .textContent as string
-                );
+                ).join("<br>");
                 const type = breakLine(
                     result.getElementsByTagName("fType")[0]
                         .textContent as string
-                );
+                ).join("<br>");
                 commit(SET_FLOWER, {
                     month,
                     day,

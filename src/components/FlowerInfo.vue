@@ -44,17 +44,17 @@
                     class="flowerInfo"
                     v-for="(content, index) in flowerData.content"
                     :key="index"
-                    v-html="content + '.'"
+                    v-html="content"
                 ></p>
             </section>
         </div>
         <section>
             <h3 class="subTitle">* 꽃 자생처</h3>
-            <p class="subInfo" v-html="flowerData.type + '.'"></p>
+            <p class="subInfo" v-html="flowerData.type"></p>
             <h3 class="subTitle">* 꽃 기르는 법</h3>
-            <p class="subInfo" v-html="flowerData.grow + '.'"></p>
+            <p class="subInfo" v-html="flowerData.grow"></p>
             <h3 class="subTitle">* 꽃 용도</h3>
-            <p class="subInfo" v-html="flowerData.use + '.'"></p>
+            <p class="subInfo" v-html="flowerData.use"></p>
         </section>
     </article>
 </template>
