@@ -96,6 +96,7 @@ export default {
         position: fixed;
         top: 50%;
         z-index: 100;
+        opacity: 60%;
         &.prev {
             left: 40px;
         }
@@ -178,8 +179,29 @@ export default {
     }
 }
 
+@media screen and (max-width: 1500px) {
+    .infoContainer{
+        .link {
+            &.prev {
+                left: 20px;
+            }
+            &.next {
+                right: 20px;
+            }
+        }
+    }
+}
+
 @media screen and (max-width: 1000px) {
     .infoContainer {
+        .link {
+            &.prev {
+                left: 0;
+            }
+            &.next {
+                right: 0;
+            }
+        }
         .upperWrapper {
             gap: 12px;
             .imgWrapper {
@@ -197,6 +219,14 @@ export default {
 @media screen and (max-width: 800px) {
     .infoContainer {
         padding: 24px 5% 8px;
+        .link {
+            &.prev {
+                left: -10px;
+            }
+            &.next {
+                right: -10px;
+            }
+        }
         .upperWrapper {
             flex-direction: column;
             gap: 24px;
