@@ -26,7 +26,7 @@ export default {
     },
     mounted(): void {
         this.$store.commit(INITIALIZE_DATE);
-        this.$store.dispatch(GET_FLOWER_DATA, this.$store.state.today.dateNo);
+        this.$store.dispatch(GET_FLOWER_DATA, this.$store.state.today.dataNo);
     },
 };
 </script>
