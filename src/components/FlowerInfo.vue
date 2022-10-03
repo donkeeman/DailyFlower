@@ -8,15 +8,25 @@
         >
         <h2 class="date">{{ flowerData.month }}월 {{ flowerData.day }}일</h2>
         <div class="upperWrapper">
-            <div class="imgWrapper">
-                <img
-                    v-for="(imgSrc, index) in flowerData.imgArray"
-                    :key="index"
-                    :src="imgSrc"
-                    alt="꽃 사진"
-                    class="imgs"
-                />
+            <div class="imgAlbum">
+                <div class="imgWrapper">
+                    <img
+                        :src="thumbnail || flowerData.imgArray[0]"
+                        alt="꽃 사진"
+                        class="thumbnail"
+                    />
+                </div>
+                <ul class="imgArray">
+                    <li
+                        v-for="(imgSrc, index) in flowerData.imgArray"
+                        :key="index"
+                        @click="changeImg(imgSrc)"
+                    >
+                        <img :src="imgSrc" alt="꽃 사진" class="imgs" />
+                    </li>
+                </ul>
             </div>
+
             <section class="contentSection">
                 <div class="nameWrapper">
                     <h3 class="a11yHidden">꽃 이름</h3>
@@ -63,6 +73,11 @@
 import { mapState } from "vuex";
 import { GET_FLOWER_DATA } from "@/store";
 export default {
+    data(): unknown {
+        return {
+            thumbnail: "",
+        };
+    },
     computed: {
         ...mapState(["flowerData"]),
         getPrevLink(): string {
@@ -82,6 +97,11 @@ export default {
     },
     mounted(): void {
         this.$store.dispatch(GET_FLOWER_DATA, this.$route.params.dataNo);
+    },
+    methods: {
+        changeImg(imgSrc: string): void {
+            this.thumbnail = imgSrc;
+        },
     },
 };
 </script>
@@ -112,19 +132,31 @@ export default {
         display: flex;
         gap: 24px;
         margin: 36px auto 0;
-        .imgWrapper {
-            position: relative;
-            /* 추후 미디어쿼리로 이미지 사이즈와 레이아웃 변경하기 */
-            width: 405px;
-            height: 315px;
-            object-fit: cover;
-            flex: 0 0 405px;
-            .imgs {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
+        .imgAlbum {
+            .imgWrapper {
+                position: relative;
+                /* 추후 미디어쿼리로 이미지 사이즈와 레이아웃 변경하기 */
+                width: 405px;
+                height: 315px;
+                object-fit: cover;
+                flex: 0 0 405px;
+                display: flex;
+                .thumbnail {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .imgArray {
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-between;
+                .imgs {
+                    width: 128px;
+                    cursor: pointer;
+                }
             }
         }
         .contentSection {
@@ -180,7 +212,7 @@ export default {
 }
 
 @media screen and (max-width: 1500px) {
-    .infoContainer{
+    .infoContainer {
         .link {
             &.prev {
                 left: 20px;
@@ -204,10 +236,17 @@ export default {
         }
         .upperWrapper {
             gap: 12px;
-            .imgWrapper {
-                width: 270px;
-                height: 210px;
-                flex: 0 1 270px;
+            .imgAlbum {
+                .imgWrapper {
+                    width: 270px;
+                    height: 210px;
+                    flex: 0 1 270px;
+                }
+                .imgArray {
+                    .imgs {
+                        width: 84px;
+                    }
+                }
             }
             .nameWrapper {
                 gap: 6px;
@@ -232,11 +271,18 @@ export default {
             gap: 24px;
             align-items: center;
             margin-top: 18px;
-            .imgWrapper {
-                width: 405px;
-                height: 315px;
-                gap: 0;
-                flex: 0 1 auto;
+            .imgAlbum {
+                .imgWrapper {
+                    width: 405px;
+                    height: 315px;
+                    gap: 0;
+                    flex: 0 1 auto;
+                }
+                .imgArray {
+                    .imgs {
+                        width: 128px;
+                    }
+                }
             }
             .nameWrapper {
                 flex-direction: column;
@@ -256,11 +302,18 @@ export default {
 @media screen and (max-width: 500px) {
     .infoContainer {
         .upperWrapper {
-            .imgWrapper {
-                width: 270px;
-                height: 210px;
-                gap: 0;
-                flex: 0 1 auto;
+            .imgAlbum {
+                .imgWrapper {
+                    width: 270px;
+                    height: 210px;
+                    gap: 0;
+                    flex: 0 1 auto;
+                }
+            }
+            .imgArray {
+                .imgs {
+                    width: 84px;
+                }
             }
         }
     }
