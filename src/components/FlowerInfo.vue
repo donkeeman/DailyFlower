@@ -112,7 +112,6 @@ export default {
     },
     mounted(): void {
         this.$store.dispatch(GET_FLOWER_DATA, this.$route.params.dataNo);
-        // this.$store.commit(SET_DEFAULT_COLOR, this.$route.params.dataNo);
     },
     methods: {
         changeImg(imgSrc: string): void {
@@ -172,8 +171,10 @@ export default {
                 margin-top: 10px;
                 display: flex;
                 justify-content: space-between;
+                object-fit: cover;
                 .imgs {
                     width: 128px;
+                    height: 100%;
                     cursor: pointer;
                 }
             }
@@ -329,10 +330,10 @@ export default {
                     gap: 0;
                     flex: 0 1 auto;
                 }
-            }
-            .imgArray {
-                .imgs {
-                    width: 84px;
+                .imgArray {
+                    .imgs {
+                        width: 84px;
+                    }
                 }
             }
         }
