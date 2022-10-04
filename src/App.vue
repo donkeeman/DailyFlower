@@ -44,6 +44,7 @@ export default {
 #app {
     width: 100%;
     height: 100vh;
+    padding-top: 64px;
     background-color: var(--background-color);
     font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
     color: $BLACK;

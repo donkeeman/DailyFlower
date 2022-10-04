@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header class="header" :style="setBackgroundColor">
         <h1 class="title">나날꽃</h1>
         <router-link to="/" class="logo">
             <img src="@/assets/img/logo.png" alt="logo" />
@@ -22,8 +22,11 @@
 </template>
 
 <script lang="ts">
+import { mapState } from "vuex";
+
 export default {
     computed: {
+        ...mapState(["defaultColor"]),
         getRandom(): string {
             let randomNo = Math.floor(Math.random() * 366) + 1;
             if (randomNo === this.$route.params.dataNo) {
@@ -31,17 +34,28 @@ export default {
             }
             return "/info/" + randomNo;
         },
+        setBackgroundColor(): unknown {
+            return {
+                "--background-color": this.defaultColor.background,
+            };
+        },
     },
 };
 </script>
 
 <style lang="scss">
 .header {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 10%;
     background-color: $WHITE;
+    border-bottom: 2px solid var(--background-color);
+    z-index: 50;
     .logo {
         display: block;
         width: 120px;
