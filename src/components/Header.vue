@@ -7,18 +7,32 @@
         <nav>
             <ul class="nav fullscreen">
                 <li><router-link to="/search">날짜로 검색하기</router-link></li>
-                <li><router-link to="/info/1">랜덤으로 보기</router-link></li>
+                <li>
+                    <router-link :to="getRandom">랜덤으로 보기</router-link>
+                </li>
             </ul>
             <ul class="nav mobile">
                 <li><router-link to="/search">검색</router-link></li>
-                <li><router-link to="/info/1">랜덤</router-link></li>
+                <li>
+                    <router-link :to="getRandom">랜덤</router-link>
+                </li>
             </ul>
         </nav>
     </header>
 </template>
 
 <script lang="ts">
-export default {};
+export default {
+    computed: {
+        getRandom(): string {
+            let randomNo = Math.floor(Math.random() * 366) + 1;
+            if (randomNo === this.$route.params.dataNo) {
+                randomNo = Math.floor(Math.random() * 366) + 1;
+            }
+            return "/info/" + randomNo;
+        },
+    },
+};
 </script>
 
 <style lang="scss">
