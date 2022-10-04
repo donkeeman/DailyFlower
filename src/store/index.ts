@@ -5,10 +5,24 @@ import axios from "axios";
 Vue.use(Vuex);
 
 // 윤년인지 검사
-const monthArr = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30];
+const MONTH = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30];
+
+const FONT_COLOR = {
+    SPRING: "#4e944f",
+    SUMMER: "#3b9ae1",
+    FALL: "#aa4a30",
+    WINTER: "#64638f",
+};
+
+const BACKGROUND_COLOR = {
+    SPRING: "#b4e197",
+    SUMMER: "#b2dffb",
+    FALL: "#e89f71",
+    WINTER: "#cbc9ff",
+};
 
 const calculateDataNo = (month: number, day: number): number => {
-    return monthArr.slice(0, month + 1).reduce((a, b) => a + b, 0) + day;
+    return MONTH.slice(0, month + 1).reduce((a, b) => a + b, 0) + day;
 };
 
 const breakLine = (str: string): Array<string> => {
@@ -39,6 +53,7 @@ const upperFirstChar = (str: string): string => {
 export const INITIALIZE_DATE = "INITIALIZE_DATE";
 export const SET_FLOWER = "SET_FLOWER";
 export const GET_FLOWER_DATA = "GET_FLOWER_DATA";
+export const SET_DEFAULT_COLOR = "SET_DEFAULT_COLOR";
 
 export default new Vuex.Store({
     state: {
@@ -60,6 +75,10 @@ export default new Vuex.Store({
             grow: "",
             type: "",
         },
+        defaultColor: {
+            font: "",
+            background: "",
+        },
     },
     mutations: {
         // 페이지를 열 때마다 오늘의 날짜를 얻어와서 초기화
@@ -73,7 +92,21 @@ export default new Vuex.Store({
         },
         [SET_FLOWER](state, data) {
             state.flowerData = data;
-            // Vue.set(state.flowerData, "flowerName", name);
+        },
+        [SET_DEFAULT_COLOR](state, dataNo) {
+            if (dataNo >= 61 && dataNo <= 152) {
+                state.defaultColor.font = FONT_COLOR.SPRING;
+                state.defaultColor.background = BACKGROUND_COLOR.SPRING;
+            } else if (dataNo >= 153 && dataNo <= 244) {
+                state.defaultColor.font = FONT_COLOR.SUMMER;
+                state.defaultColor.background = BACKGROUND_COLOR.SUMMER;
+            } else if (dataNo >= 245 && dataNo <= 335) {
+                state.defaultColor.font = FONT_COLOR.FALL;
+                state.defaultColor.background = BACKGROUND_COLOR.FALL;
+            } else {
+                state.defaultColor.font = FONT_COLOR.WINTER;
+                state.defaultColor.background = BACKGROUND_COLOR.WINTER;
+            }
         },
     },
     actions: {
@@ -139,6 +172,7 @@ export default new Vuex.Store({
                     grow,
                     type,
                 });
+                commit(SET_DEFAULT_COLOR, dataNo);
                 return;
             } catch (error) {
                 console.error(error);

@@ -1,7 +1,7 @@
 <template>
-    <div id="app">
+    <div id="app" :style="setBackgroundColor">
         <Header></Header>
-        <main class="main">
+        <main class="main" :style="setBackgroundColor">
             <template v-if="getPath === ''">
                 <TodayFlower />
             </template>
@@ -19,6 +19,7 @@
 import Header from "@/components/Header.vue";
 import TodayFlower from "./components/TodayFlower.vue";
 import FlowerInfo from "./components/FlowerInfo.vue";
+import { mapState } from "vuex";
 export default {
     components: {
         Header,
@@ -26,8 +27,14 @@ export default {
         FlowerInfo,
     },
     computed: {
+        ...mapState(["defaultColor"]),
         getPath(): string {
             return this.$route.path.split("/")[1];
+        },
+        setBackgroundColor(): unknown {
+            return {
+                "--background-color": this.defaultColor.background,
+            };
         },
     },
 };
@@ -37,8 +44,9 @@ export default {
 #app {
     width: 100%;
     height: 100vh;
-    background-color: $BACKGROUND_SPRING;
+    background-color: var(--background-color);
     font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
+    color: $BLACK;
 }
 
 .main {
@@ -46,7 +54,7 @@ export default {
     padding: 0 20px;
     display: flex;
     align-items: center;
-    background-color: $BACKGROUND_SPRING;
+    background-color: var(--background-color);
 }
 
 .a11yHidden {

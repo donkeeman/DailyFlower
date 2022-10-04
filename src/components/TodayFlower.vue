@@ -1,5 +1,5 @@
 <template>
-    <article class="todayContainer">
+    <article class="todayContainer" :style="setFontColor">
         <!-- v-if로 데이터를 다 불러오면 띄우기 -->
         <!-- api 에러났을 경우에는 잠시후 다시 시도해 주세요 띄우기 -->
         <!-- 데이터 불러왔는지 체크하는 변수와 데이터가 에러인지 체크하는 변수 추가하기 -->
@@ -22,7 +22,12 @@ import { mapState } from "vuex";
 import { INITIALIZE_DATE, GET_FLOWER_DATA } from "@/store";
 export default {
     computed: {
-        ...mapState(["today", "flowerData"]),
+        ...mapState(["today", "flowerData", "defaultColor"]),
+        setFontColor(): unknown {
+            return {
+                "--font-color": this.defaultColor.font,
+            };
+        },
     },
     mounted(): void {
         this.$store.commit(INITIALIZE_DATE);
@@ -34,6 +39,7 @@ export default {
 <style lang="scss" scoped>
 .todayContainer {
     @include container(900, 12);
+    color: var(--font-color);
     text-align: center;
     padding: 44px 8% 32px;
     height: 100%;
@@ -45,17 +51,17 @@ export default {
         }
     }
     h2 {
-        @include setFont(32, $FONT_SPRING);
+        @include setFontSize(32);
     }
     .flowerName {
-        @include setFont(40, $FONT_SPRING);
+        @include setFontSize(40);
     }
     .flowerLanguage {
-        @include setFont(24, $FONT_SPRING);
+        @include setFontSize(24);
         margin: 12px auto 44px;
     }
     .infoLink {
-        @include setFont(20, $FONT_SPRING);
+        @include setFontSize(20);
         text-decoration: underline;
     }
 }

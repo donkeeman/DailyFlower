@@ -1,13 +1,23 @@
 <template>
     <article class="infoContainer">
-        <router-link class="link prev" :to="getPrevLink" title="이전"
+        <router-link
+            class="link prev"
+            :to="getPrevLink"
+            :style="setFontColor"
+            title="이전"
             >&lt;</router-link
         >
-        <router-link class="link next" :to="getNextLink" title="다음"
+        <router-link
+            class="link next"
+            :to="getNextLink"
+            :style="setFontColor"
+            title="다음"
             >&gt;</router-link
         >
-        <h2 class="date">{{ flowerData.month }}월 {{ flowerData.day }}일</h2>
-        <div class="upperWrapper">
+        <h2 class="date" :style="setFontColor">
+            {{ flowerData.month }}월 {{ flowerData.day }}일
+        </h2>
+        <div class="upperWrapper" :style="setFontColor">
             <div class="imgAlbum">
                 <div class="imgWrapper">
                     <img
@@ -79,7 +89,7 @@ export default {
         };
     },
     computed: {
-        ...mapState(["flowerData"]),
+        ...mapState(["flowerData", "defaultColor", "testColor"]),
         getPrevLink(): string {
             if (this.$route.params.dataNo === "1") {
                 return "/info/366";
@@ -94,9 +104,15 @@ export default {
                 return "/info/" + (parseInt(this.$route.params.dataNo) + 1);
             }
         },
+        setFontColor(): unknown {
+            return {
+                "--font-color": this.defaultColor.font,
+            };
+        },
     },
     mounted(): void {
         this.$store.dispatch(GET_FLOWER_DATA, this.$route.params.dataNo);
+        // this.$store.commit(SET_DEFAULT_COLOR, this.$route.params.dataNo);
     },
     methods: {
         changeImg(imgSrc: string): void {
@@ -112,11 +128,12 @@ export default {
     padding: 48px 5% 36px;
     position: relative;
     .link {
-        @include setFont(128, $FONT_SPRING);
+        @include setFontSize(128);
         position: fixed;
         top: 50%;
         z-index: 100;
         opacity: 60%;
+        color: var(--font-color);
         &.prev {
             left: 40px;
         }
@@ -125,17 +142,19 @@ export default {
         }
     }
     .date {
-        @include setFont(32, $FONT_SPRING);
+        @include setFontSize(32);
+        font-size: 32px;
         text-align: center;
+        color: var(--font-color);
     }
     .upperWrapper {
         display: flex;
         gap: 24px;
         margin: 36px auto 0;
+        color: var(--font-color);
         .imgAlbum {
             .imgWrapper {
                 position: relative;
-                /* 추후 미디어쿼리로 이미지 사이즈와 레이아웃 변경하기 */
                 width: 405px;
                 height: 315px;
                 object-fit: cover;
@@ -166,13 +185,13 @@ export default {
             display: flex;
             gap: 12px;
             .flowerName {
-                @include setFont(40, $FONT_SPRING);
+                @include setFontSize(40);
             }
             .subNameWrapper {
                 display: flex;
                 flex-direction: column;
                 .subName {
-                    @include setFont(20, $FONT_SPRING);
+                    @include setFontSize(20);
                     line-height: 100%;
                     &.sct {
                         line-height: 80%;
@@ -183,27 +202,28 @@ export default {
         hr {
             width: 100%;
             height: 0.5px;
-            background-color: $FONT_SPRING;
+            background-color: var(--font-color);
             margin: 10px 0 22px;
         }
         .flowerLanguage {
-            @include setFont(26, $FONT_SPRING);
+            @include setFontSize(26);
             display: block;
             margin-bottom: 18px;
         }
         .flowerInfo {
-            @include setFont(18);
+            @include setFontSize(18);
+            color: $BLACK;
             word-break: keep-all;
             margin-top: 10px;
             line-height: 150%;
         }
     }
     .subTitle {
-        @include setFont(24);
+        @include setFontSize(24);
         margin-top: 24px;
     }
     .subInfo {
-        @include setFont(18);
+        @include setFontSize(18);
         word-break: keep-all;
         margin: 10px 0;
         padding-left: 20px;

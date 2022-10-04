@@ -63,7 +63,7 @@ export default {};
                 background-color: $BLACK;
             }
             a {
-                @include setFont(20);
+                @include setFontSize(20);
                 display: block;
             }
         }
