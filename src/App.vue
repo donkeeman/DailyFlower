@@ -61,4 +61,13 @@ export default {
 .a11yHidden {
     @include a11yHidden();
 }
+
+@media screen and (max-width: 300px) {
+    .main {
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0;
+        background-color: $WHITE;
+    }
+}
 </style>

@@ -226,7 +226,7 @@ export default {
     .subInfo {
         @include setFontSize(18);
         word-break: keep-all;
-        margin: 10px 0;
+        margin-top: 10px;
         padding-left: 20px;
         line-height: 150%;
     }
@@ -337,6 +337,13 @@ export default {
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .infoContainer {
+        margin: 10px auto;
+        padding: 0;
     }
 }
 </style>

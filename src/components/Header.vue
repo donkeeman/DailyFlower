@@ -45,6 +45,7 @@ export default {
 
 <style lang="scss">
 .header {
+    box-sizing: border-box;
     position: fixed;
     width: 100%;
     top: 0;
