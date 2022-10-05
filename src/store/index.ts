@@ -4,9 +4,6 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
-// 윤년인지 검사
-const MONTH = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30];
-
 const FONT_COLOR = {
     SPRING: "#4e944f",
     SUMMER: "#3b9ae1",
@@ -19,10 +16,6 @@ const BACKGROUND_COLOR = {
     SUMMER: "#b2dffb",
     FALL: "#e89f71",
     WINTER: "#cbc9ff",
-};
-
-const calculateDataNo = (month: number, day: number): number => {
-    return MONTH.slice(0, month + 1).reduce((a, b) => a + b, 0) + day;
 };
 
 const breakLine = (str: string): Array<string> => {
@@ -48,6 +41,12 @@ const breakLine = (str: string): Array<string> => {
 
 const upperFirstChar = (str: string): string => {
     return str[0].toUpperCase() + str.slice(1);
+};
+
+export const MONTH = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30];
+
+export const calculateDataNo = (month: number, day: number): number => {
+    return MONTH.slice(0, month + 1).reduce((a, b) => a + b, 0) + day;
 };
 
 export const INITIALIZE_DATE = "INITIALIZE_DATE";
