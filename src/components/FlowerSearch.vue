@@ -34,7 +34,7 @@
                 </select>
                 <select v-model="selectedDay">
                     <option
-                        v-for="i in MONTH[selectedMonth + 1]"
+                        v-for="i in MONTH[selectedMonth]"
                         :key="i"
                         :value="i"
                     >

@@ -43,10 +43,10 @@ const upperFirstChar = (str: string): string => {
     return str[0].toUpperCase() + str.slice(1);
 };
 
-export const MONTH = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30];
+export const MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export const calculateDataNo = (month: number, day: number): number => {
-    return MONTH.slice(0, month + 1).reduce((a, b) => a + b, 0) + day;
+    return MONTH.slice(0, month).reduce((a, b) => a + b, 0) + day;
 };
 
 export const INITIALIZE_DATE = "INITIALIZE_DATE";
