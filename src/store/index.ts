@@ -75,8 +75,8 @@ export default new Vuex.Store({
             type: "",
         },
         defaultColor: {
-            font: "",
-            background: "",
+            font: FONT_COLOR.SPRING,
+            background: BACKGROUND_COLOR.SPRING,
         },
     },
     mutations: {
