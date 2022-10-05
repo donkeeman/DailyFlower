@@ -49,6 +49,14 @@ export const calculateDataNo = (month: number, day: number): number => {
     return MONTH.slice(0, month).reduce((a, b) => a + b, 0) + day;
 };
 
+export const getData = async (dataNo: number): Promise<Document> => {
+    const queryString = `?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dataNo}`;
+    const response = await axios.get(axios.defaults.baseURL + queryString);
+    const data = await response.data;
+    const result = new DOMParser().parseFromString(data, "text/xml");
+    return result;
+};
+
 export const INITIALIZE_DATE = "INITIALIZE_DATE";
 export const SET_FLOWER = "SET_FLOWER";
 export const GET_FLOWER_DATA = "GET_FLOWER_DATA";
@@ -110,16 +118,8 @@ export default new Vuex.Store({
     },
     actions: {
         async [GET_FLOWER_DATA]({ commit }, dataNo) {
-            const queryString = `?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dataNo}`;
             try {
-                const response = await axios.get(
-                    axios.defaults.baseURL + queryString
-                );
-                const data = await response.data;
-                const result = new DOMParser().parseFromString(
-                    data,
-                    "text/xml"
-                );
+                const result = await getData(dataNo);
                 const month =
                     result.getElementsByTagName("fMonth")[0].textContent;
                 const day = result.getElementsByTagName("fDay")[0].textContent;
