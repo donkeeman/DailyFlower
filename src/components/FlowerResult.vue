@@ -1,8 +1,13 @@
 <template>
-    <article class="resultContainer" :style="setFontColor" @click="redirectToResult(searchFor)">
-        <img />
-        <p>{{ month }}월 {{ day }}일</p>
-        <p>{{ flowerName }}</p>
+    <article
+        class="resultContainer"
+        @click="redirectToResult(searchFor)"
+    >
+        <img :src="img" alt="꽃 사진" class="thumbnail" />
+        <div class="textWrapper">
+            <p class="date">{{ month }}월 {{ day }}일</p>
+            <p class="flowerName">{{ flowerName }}</p>
+        </div>
     </article>
 </template>
 
@@ -22,11 +27,6 @@ export default {
     },
     computed: {
         ...mapState(["defaultColor"]),
-        setFontColor(): unknown {
-            return {
-                "--font-color": this.defaultColor.font,
-            };
-        },
     },
     methods: {
         redirectToResult(dataNo: number): void {
@@ -47,8 +47,34 @@ export default {
 
 <style lang="scss">
 .resultContainer {
-    @include container(300, 10);
-    border: 1.5px solid $BLACK;
+    @include container(320, 0);
+    border: 2px solid $GRAY;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    gap: 20px;
+    &:hover{
+        transform: translateY(-4px);
+        transition: transform .2s;
+    }
+
+    .thumbnail {
+        width: 90px;
+    }
+    .textWrapper {
+        color: $BLACK;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-top: 4px;
+        gap: 4px;
+        .date{
+            @include setFontSize(24);
+        }
+        .flowerName {
+            @include setFontSize(20);
+        }
+    }
 }
 </style>
