@@ -1,5 +1,10 @@
 <template>
-    <article class="resultContainer" @click="$emit('redirect', searchFor)">
+    <article
+        class="resultContainer"
+        @click="
+            flowerName && month && day && img && $emit('redirect', searchFor)
+        "
+    >
         <template v-if="flowerName && month && day && img">
             <img :src="img" alt="꽃 사진" class="thumbnail" />
             <div class="textWrapper">
@@ -8,7 +13,8 @@
             </div>
         </template>
         <template v-else>
-            <Loading />
+            <!-- <Loading :isResult="true" :dataNo="searchFor" @retry="returnData" /> -->
+            <Loading :isResult="true" />
         </template>
     </article>
 </template>
@@ -19,7 +25,7 @@ import { mapState } from "vuex";
 import Loading from "./Loading.vue";
 
 export default {
-    props: ["searchFor", "redirectResult"],
+    props: ["searchFor"],
     data(): unknown {
         return {
             month: 0,
@@ -31,12 +37,20 @@ export default {
     computed: {
         ...mapState(["defaultColor"]),
     },
+    methods: {
+        async returnData(dataNo: number): Promise<Document | undefined> {
+            return await getData(dataNo);
+        },
+    },
     async mounted(): void {
-        const result = await getData(this.searchFor);
-        this.flowerName = result.getElementsByTagName("flowNm")[0].textContent;
-        this.month = result.getElementsByTagName("fMonth")[0].textContent;
-        this.day = result.getElementsByTagName("fDay")[0].textContent;
-        this.img = result.getElementsByTagName("imgUrl1")[0].textContent;
+        const result = await this.returnData(this.searchFor);
+        if (result) {
+            this.flowerName =
+                result.getElementsByTagName("flowNm")[0].textContent;
+            this.month = result.getElementsByTagName("fMonth")[0].textContent;
+            this.day = result.getElementsByTagName("fDay")[0].textContent;
+            this.img = result.getElementsByTagName("imgUrl1")[0].textContent;
+        }
     },
     components: {
         Loading,
@@ -49,6 +63,12 @@ export default {
     .loadingWrapper {
         padding-top: 8px;
         height: 86px;
+        text-align: left;
+        gap: 4px;
+        align-items: flex-start;
+        .failed {
+            @include setFontSize(16);
+        }
     }
     @include container(320, 0);
     border: 2px solid $GRAY;

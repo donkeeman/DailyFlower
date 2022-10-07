@@ -1,11 +1,19 @@
 <template>
     <article class="todayContainer" :style="setFontColor">
         <template v-if="flowerData.korName === ''">
-            <Loading />
+            <Loading
+                :retry="
+                    () => {
+                        $store.commit(INITIALIZE_DATE);
+                        $store.dispatch(
+                            GET_FLOWER_DATA,
+                            $store.state.today.dataNo
+                        );
+                    }
+                "
+            />
         </template>
         <template v-else>
-            <!-- api 에러났을 경우에는 잠시후 다시 시도해 주세요 띄우기 -->
-            <!-- 데이터 불러왔는지 체크하는 변수와 데이터가 에러인지 체크하는 변수 추가하기 -->
             <h2>오늘의 꽃</h2>
             <div class="imgWrapper">
                 <img :src="flowerData.imgArray[0]" alt="꽃 사진" />
