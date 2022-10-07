@@ -5,13 +5,21 @@ import axios from "axios";
 Vue.use(Vuex);
 
 const FONT_COLOR = {
-    SPRING: "#4e944f",
-    SUMMER: "#3b9ae1",
-    FALL: "#aa4a30",
-    WINTER: "#64638f",
+    // SPRING: "#4e944f",
+    // SUMMER: "#3b9ae1",
+    // FALL: "#aa4a30",
+    // WINTER: "#64638f",
+    SPRING: "78, 148, 79",
+    SUMMER: "59, 154, 225",
+    FALL: "170, 74, 48",
+    WINTER: "100, 99, 143",
 };
 
 const BACKGROUND_COLOR = {
+    // SPRING: "#b4e197",
+    // SUMMER: "#b2dffb",
+    // FALL: "#e89f71",
+    // WINTER: "#cbc9ff",
     SPRING: "#b4e197",
     SUMMER: "#b2dffb",
     FALL: "#e89f71",

@@ -55,7 +55,7 @@ export default {
 <style lang="scss" scoped>
 .todayContainer {
     @include container(900, 12);
-    color: var(--font-color);
+    color: rgb(var(--font-color));
     text-align: center;
     padding: 44px 8% 32px;
     .imgWrapper {

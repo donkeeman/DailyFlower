@@ -139,8 +139,7 @@ export default {
         position: fixed;
         top: 50%;
         z-index: 100;
-        opacity: 60%;
-        color: var(--font-color);
+        color: rgba(var(--font-color), 0.6);
         &.prev {
             left: 40px;
         }
@@ -152,12 +151,12 @@ export default {
         @include setFontSize(32);
         font-size: 32px;
         text-align: center;
-        color: var(--font-color);
+        color: rgb(var(--font-color));
     }
     .upperWrapper {
         @include flex(row, 24);
         margin: 36px auto 0;
-        color: var(--font-color);
+        color: rgb(var(--font-color));
         .imgAlbum {
             .imgWrapper {
                 position: relative;
@@ -206,7 +205,7 @@ export default {
         hr {
             width: 100%;
             height: 0.5px;
-            background-color: var(--font-color);
+            background-color: rgb(var(--font-color));
             margin: 10px 0 22px;
         }
         .flowerLanguage {

@@ -185,7 +185,7 @@ export default {
     padding: 48px 2% 36px;
     h2 {
         @include setFontSize(32);
-        color: var(--font-color);
+        color: rgb(var(--font-color));
     }
     .searchForm {
         margin: 40px auto;
@@ -204,7 +204,7 @@ export default {
                 display: block;
             }
             input[type="radio"] {
-                accent-color: var(--font-color);
+                accent-color: rgb(var(--font-color));
                 width: 20px;
                 height: 20px;
                 vertical-align: -4px;
