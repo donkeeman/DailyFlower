@@ -6,7 +6,7 @@ import axios from "axios";
 
 Vue.config.productionTip = false;
 axios.defaults.baseURL =
-    "http://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlowerView01";
+    "https://apis.data.go.kr/1390804/NihhsTodayFlowerInfo01/selectTodayFlowerView01";
 
 new Vue({
     router,
