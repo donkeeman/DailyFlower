@@ -76,7 +76,6 @@ export default {
     #app {
         background-color: $WHITE;
     }
-
     .main {
         overflow-x: hidden;
         padding: 0;

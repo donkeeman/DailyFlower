@@ -65,8 +65,8 @@ export default {
     }
 }
 
-@media screen and (max-width: 400px){
-    .resultContainer{
+@media screen and (max-width: 400px) {
+    .resultContainer {
         width: 240px;
     }
 }

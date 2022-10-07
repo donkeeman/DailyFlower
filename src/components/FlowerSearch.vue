@@ -77,7 +77,7 @@
             <button
                 type="button"
                 @click="isRange ? showResult() : redirectToResult()"
-                class="button"
+                class="button search"
             >
                 검색
             </button>
@@ -85,13 +85,21 @@
         <section v-if="resultArr.length !== 0 && isRange">
             <h3 class="a11yHidden">검색 결과</h3>
             <ol class="resultSection">
-                <li v-for="num in resultArr" :key="num">
+                <li v-for="num in sliceResult()" :key="num">
                     <FlowerResult
                         @redirect="redirectToResult"
                         :searchFor="num"
                     />
                 </li>
             </ol>
+            <button
+                type="button"
+                class="button more"
+                v-if="resultArr.length >= 10 * resultCount"
+                @click="resultCount++"
+            >
+                더보기
+            </button>
         </section>
     </article>
 </template>
@@ -112,6 +120,7 @@ export default {
             startDay: 1,
             endMonth: 0,
             endDay: 1,
+            resultCount: 1,
         };
     },
     computed: {
@@ -132,6 +141,7 @@ export default {
             });
         },
         showResult(): void {
+            this.resultCount = 1;
             this.resultArr.length = 0;
             this.resultArr = [];
             const startDate = calculateDataNo(this.startMonth, this.startDay);
@@ -150,6 +160,9 @@ export default {
                 }
             }
         },
+        sliceResult(): Array<number> {
+            return this.resultArr.slice(0, 10 * this.resultCount);
+        },
     },
     components: {
         FlowerResult,
@@ -159,6 +172,16 @@ export default {
 
 <style lang="scss">
 .searchContainer {
+    .button {
+        @include setFontSize(16);
+        font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
+        border: 2px solid $GRAY;
+        border-radius: 10px;
+        padding: 8px 16px 4px;
+        &:hover {
+            background-color: $GRAY;
+        }
+    }
     @include container(900, 12);
     text-align: center;
     padding: 48px 2% 36px;
@@ -199,21 +222,15 @@ export default {
                 background-color: $WHITE;
             }
         }
-        .button {
-            @include setFontSize(16);
-            font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
-            border: 2px solid $GRAY;
-            border-radius: 10px;
-            padding: 8px 16px 4px;
-            &:hover {
-                background-color: $GRAY;
-            }
-        }
     }
     .resultSection {
         width: 100%;
         @include flex(row, 12, center);
         flex-wrap: wrap;
+    }
+    .more {
+        margin-top: 20px;
+        width: 100%;
     }
 }
 
