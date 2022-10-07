@@ -1,8 +1,5 @@
 <template>
-    <article
-        class="resultContainer"
-        @click="redirectToResult(searchFor)"
-    >
+    <article class="resultContainer" @click="$emit('redirect', searchFor)">
         <img :src="img" alt="꽃 사진" class="thumbnail" />
         <div class="textWrapper">
             <p class="date">{{ month }}월 {{ day }}일</p>
@@ -28,13 +25,6 @@ export default {
     computed: {
         ...mapState(["defaultColor"]),
     },
-    methods: {
-        redirectToResult(dataNo: number): void {
-            this.$router.push({
-                path: "/info/" + dataNo,
-            });
-        },
-    },
     async mounted(): void {
         const result = await getData(this.searchFor);
         this.flowerName = result.getElementsByTagName("flowNm")[0].textContent;
@@ -54,9 +44,9 @@ export default {
     align-items: center;
     padding: 6px 10px;
     gap: 20px;
-    &:hover{
+    &:hover {
         transform: translateY(-4px);
-        transition: transform .2s;
+        transition: transform 0.2s;
     }
 
     .thumbnail {
@@ -68,13 +58,20 @@ export default {
         flex-direction: column;
         justify-content: space-between;
         padding-top: 4px;
+        text-align: left;
         gap: 4px;
-        .date{
+        .date {
             @include setFontSize(24);
         }
         .flowerName {
             @include setFontSize(20);
         }
+    }
+}
+
+@media screen and (max-width: 300px){
+    .resultContainer{
+        width: 240px;
     }
 }
 </style>

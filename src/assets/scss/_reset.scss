@@ -6,6 +6,8 @@ h3,
 div,
 p,
 strong,
+fieldset,
+ol,
 ul,
 li,
 a {
@@ -20,12 +22,14 @@ body,
 div,
 section,
 article,
+fieldset,
 header,
 nav,
 main {
     box-sizing: border-box;
 }
 
+ol,
 ul,
 li {
     list-style: none;

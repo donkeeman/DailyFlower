@@ -1,94 +1,105 @@
 <template>
-    <article class="searchContainer">
+    <article class="searchContainer" :style="setFontColor">
         <h2>검색하기</h2>
-        <form>
-            <fieldset>
+        <form class="searchForm">
+            <fieldset class="fieldset range">
                 <legend class="a11yHidden">날짜 또는 범위 선택</legend>
-                <input
-                    v-model="isRange"
-                    type="radio"
-                    name="isRange"
-                    id="single"
-                    :value="false"
-                />
-                <label for="isRange">날짜</label>
-                <input
-                    v-model="isRange"
-                    type="radio"
-                    name="isRange"
-                    id="range"
-                    :value="true"
-                />
-                <label for="isRange">범위</label>
+
+                <label for="single">
+                    <input
+                        v-model="isRange"
+                        type="radio"
+                        name="isRange"
+                        id="single"
+                        :value="false"
+                    />
+                    날짜
+                </label>
+
+                <label for="range">
+                    <input
+                        v-model="isRange"
+                        type="radio"
+                        name="isRange"
+                        id="range"
+                        :value="true"
+                    />
+                    범위
+                </label>
             </fieldset>
-            <fieldset>
-                <label for="date" v-if="!isRange">
+            <fieldset class="fieldset search">
+                <label class="message" for="date" v-if="!isRange">
                     날짜를 선택해 주세요.
                 </label>
-                <label for="date" v-else> 날짜 범위를 선택해 주세요. </label>
-                <select name="date" v-model="startMonth">
+                <label class="message" for="date" v-else>
+                    날짜 범위를 선택해 주세요.
+                </label>
+                <select name="date" v-model="startMonth" class="select">
                     <option
                         v-for="(_, index) in MONTH"
                         :key="index"
                         :value="index"
                     >
-                        {{ index + 1 }}월
+                        {{ index + 1 }}
                     </option>
                 </select>
-                <select v-model="startDay">
+                <span>월</span>
+                <select v-model="startDay" class="select">
                     <option v-for="i in MONTH[startMonth]" :key="i" :value="i">
-                        {{ i }}일
+                        {{ i }}
                     </option>
                 </select>
+                <span>일</span>
                 <template v-if="isRange">
-                    <span>~</span>
-                    <select name="date" v-model="endMonth">
+                    <span class="divide">~</span>
+                    <select name="date" v-model="endMonth" class="select">
                         <option
                             v-for="(_, index) in MONTH"
                             :key="index"
                             :value="index"
                         >
-                            {{ index + 1 }}월
+                            {{ index + 1 }}
                         </option>
                     </select>
-                    <select v-model="endDay">
+                    <span>월</span>
+                    <select v-model="endDay" class="select">
                         <option
                             v-for="i in MONTH[endMonth]"
                             :key="i"
                             :value="i"
                         >
-                            {{ i }}일
+                            {{ i }}
                         </option>
                     </select>
+                    <span>일</span>
                 </template>
             </fieldset>
             <button
                 type="button"
-                @click="
-                    isRange
-                        ? showResult()
-                        : $refs.result.redirectResult(
-                              calculateDataNo(startMonth, startDay)
-                          )
-                "
+                @click="isRange ? showResult() : redirectToResult()"
+                class="button"
             >
                 검색
             </button>
         </form>
-        <section v-if="resultArr.length !== 0">
-            <ol>
+        <section v-if="resultArr.length !== 0 && isRange">
+            <h3 class="a11yHidden">검색 결과</h3>
+            <ol class="resultSection">
                 <li v-for="num in resultArr" :key="num">
-                    <FlowerResult ref="result" :searchFor="num" />
+                    <FlowerResult
+                        @redirect="redirectToResult"
+                        :searchFor="num"
+                    />
                 </li>
             </ol>
         </section>
-        <FlowerResult :searchFor="1" />
     </article>
 </template>
 
 <script lang="ts">
 import FlowerResult from "./FlowerResult.vue";
 import { MONTH, calculateDataNo } from "@/store";
+import { mapState } from "vuex";
 export default {
     data(): unknown {
         return {
@@ -103,14 +114,30 @@ export default {
             endDay: 1,
         };
     },
+    computed: {
+        ...mapState(["defaultColor"]),
+        setFontColor(): unknown {
+            return {
+                "--font-color": this.defaultColor.font,
+            };
+        },
+    },
     methods: {
+        redirectToResult(dataNo = 0): void {
+            if (dataNo === 0) {
+                dataNo = calculateDataNo(this.startMonth, this.startDay);
+            }
+            this.$router.push({
+                path: "/info/" + dataNo,
+            });
+        },
         showResult(): void {
             this.resultArr.length = 0;
             this.resultArr = [];
             const startDate = calculateDataNo(this.startMonth, this.startDay);
             let endDate = calculateDataNo(this.endMonth, this.endDay);
             if (startDate === endDate) {
-                this.redirectToResult();
+                this.redirectToResult(startDate);
             }
             if (startDate > endDate) {
                 endDate += 366;
@@ -133,6 +160,104 @@ export default {
 <style lang="scss">
 .searchContainer {
     @include container(1240, 10);
-    padding: 48px 5% 36px;
+    text-align: center;
+    padding: 48px 2% 36px;
+    h2 {
+        @include setFontSize(32);
+        color: var(--font-color);
+    }
+    .searchForm {
+        margin: 40px auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 48px;
+        .fieldset {
+            border: none;
+            word-break: keep-all;
+            label,
+            span {
+                @include setFontSize(20);
+                margin: 0 4px;
+                vertical-align: middle;
+                display: inline-block;
+            }
+            .message {
+                display: block;
+            }
+            input[type="radio"] {
+                accent-color: var(--font-color);
+                width: 18px;
+                height: 18px;
+                vertical-align: -4px;
+            }
+            .select {
+                @include setFontSize(14);
+                display: inline-block;
+                height: 32px;
+                padding: 0 10px 0 20px;
+                margin: 0;
+                border: 2px solid $GRAY;
+                border-radius: 6px;
+                background-color: $WHITE;
+            }
+        }
+        .button {
+            @include setFontSize(16);
+            font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
+            border: 2px solid $GRAY;
+            border-radius: 10px;
+            padding: 8px 16px 4px;
+            &:hover {
+                background-color: $GRAY;
+            }
+        }
+    }
+    .resultSection {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .searchContainer {
+        .searchForm {
+            gap: 12px;
+            .fieldset {
+                .message,
+                .divide {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .searchContainer {
+        padding: 24px 5% 12px;
+        .searchForm {
+            margin: 20px auto;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            .fieldset {
+                .select {
+                    padding: 0 4px 0 8px;
+                }
+            }
+            .button {
+                padding: 8px 8px 4px;
+                width: 100%;
+            }
+        }
+        .resultSection {
+            flex-direction: column;
+        }
+    }
 }
 </style>

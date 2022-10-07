@@ -42,7 +42,6 @@ export default {
     color: var(--font-color);
     text-align: center;
     padding: 44px 8% 32px;
-    height: 100%;
     .imgWrapper {
         margin: 22px auto 26px;
         width: 405px;
