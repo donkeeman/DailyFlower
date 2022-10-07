@@ -69,6 +69,10 @@ export default {
 }
 
 @media screen and (max-width: 300px) {
+    #app {
+        background-color: $WHITE;
+    }
+
     .main {
         overflow-x: hidden;
         padding: 0;

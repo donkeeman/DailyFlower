@@ -76,4 +76,10 @@ export default {
         }
     }
 }
+
+@media screen and (max-width: 300px) {
+    .todayContainer {
+        padding: 30px 0;
+    }
+}
 </style>

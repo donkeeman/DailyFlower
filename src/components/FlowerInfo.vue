@@ -342,8 +342,7 @@ export default {
 
 @media screen and (max-width: 300px) {
     .infoContainer {
-        margin: 10px auto;
-        padding: 0;
+        padding: 20px 0 10px;
     }
 }
 </style>

@@ -111,4 +111,18 @@ export default {
         }
     }
 }
+
+@media screen and (max-width: 300px) {
+    .header {
+        padding: 12px 5%;
+        .nav {
+            gap: 20px;
+            li {
+                &:not(:first-child)::before {
+                    margin-left: -10px;
+                }
+            }
+        }
+    }
+}
 </style>
