@@ -4,7 +4,6 @@
         <form class="searchForm">
             <fieldset class="fieldset range">
                 <legend class="a11yHidden">날짜 또는 범위 선택</legend>
-
                 <label for="single">
                     <input
                         v-model="isRange"
@@ -15,7 +14,6 @@
                     />
                     날짜
                 </label>
-
                 <label for="range">
                     <input
                         v-model="isRange"

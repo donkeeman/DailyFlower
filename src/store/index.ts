@@ -118,6 +118,19 @@ export default new Vuex.Store({
     },
     actions: {
         async [GET_FLOWER_DATA]({ commit }, dataNo) {
+            commit(SET_FLOWER, {
+                month: 0,
+                day: 0,
+                korName: "",
+                engName: "",
+                sctName: "",
+                language: "",
+                imgArray: [],
+                content: "",
+                use: "",
+                grow: "",
+                type: "",
+            });
             try {
                 const result = await getData(dataNo);
                 const month =

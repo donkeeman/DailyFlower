@@ -1,87 +1,92 @@
 <template>
     <article class="infoContainer">
-        <router-link
-            class="link prev"
-            :to="getPrevLink"
-            :style="setFontColor"
-            title="이전"
-            >&lt;</router-link
-        >
-        <router-link
-            class="link next"
-            :to="getNextLink"
-            :style="setFontColor"
-            title="다음"
-            >&gt;</router-link
-        >
-        <h2 class="date" :style="setFontColor">
-            {{ flowerData.month }}월 {{ flowerData.day }}일
-        </h2>
-        <div class="upperWrapper" :style="setFontColor">
-            <div class="imgAlbum">
-                <div class="imgWrapper">
-                    <img
-                        :src="thumbnail || flowerData.imgArray[0]"
-                        alt="꽃 사진"
-                        class="thumbnail"
-                    />
-                </div>
-                <ul class="imgArray">
-                    <li
-                        v-for="(imgSrc, index) in flowerData.imgArray"
-                        :key="index"
-                        @click="changeImg(imgSrc)"
-                    >
-                        <img :src="imgSrc" alt="꽃 사진" class="imgs" />
-                    </li>
-                </ul>
-            </div>
-
-            <section class="contentSection">
-                <div class="nameWrapper">
-                    <h3 class="a11yHidden">꽃 이름</h3>
-                    <p class="flowerName">
-                        {{ flowerData.korName }}
-                    </p>
-                    <div class="subNameWrapper">
-                        <h3 class="a11yHidden">꽃 영문 이름</h3>
-                        <p class="subName eng">
-                            {{ flowerData.engName }}
-                        </p>
-                        <h3 class="a11yHidden">꽃 학명</h3>
-                        <p class="subName sct">
-                            {{ flowerData.sctName }}
-                        </p>
+        <template v-if="flowerData.korName === ''">
+            <Loading />
+        </template>
+        <template v-else>
+            <router-link
+                class="link prev"
+                :to="getPrevLink"
+                :style="setFontColor"
+                title="이전"
+                >&lt;</router-link
+            >
+            <router-link
+                class="link next"
+                :to="getNextLink"
+                :style="setFontColor"
+                title="다음"
+                >&gt;</router-link
+            >
+            <h2 class="date" :style="setFontColor">
+                {{ flowerData.month }}월 {{ flowerData.day }}일
+            </h2>
+            <div class="upperWrapper" :style="setFontColor">
+                <div class="imgAlbum">
+                    <div class="imgWrapper">
+                        <img
+                            :src="thumbnail || flowerData.imgArray[0]"
+                            alt="꽃 사진"
+                            class="thumbnail"
+                        />
                     </div>
+                    <ul class="imgArray">
+                        <li
+                            v-for="(imgSrc, index) in flowerData.imgArray"
+                            :key="index"
+                            @click="changeImg(imgSrc)"
+                        >
+                            <img :src="imgSrc" alt="꽃 사진" class="imgs" />
+                        </li>
+                    </ul>
                 </div>
-                <hr />
-                <h3 class="a11yHidden">꽃말</h3>
-                <strong class="flowerLanguage">
-                    " {{ flowerData.language }} "
-                </strong>
-                <h3 class="a11yHidden">꽃 정보</h3>
-                <p
-                    class="flowerInfo"
-                    v-for="(content, index) in flowerData.content"
-                    :key="index"
-                    v-html="content"
-                ></p>
+                <section class="contentSection">
+                    <div class="nameWrapper">
+                        <h3 class="a11yHidden">꽃 이름</h3>
+                        <p class="flowerName">
+                            {{ flowerData.korName }}
+                        </p>
+                        <div class="subNameWrapper">
+                            <h3 class="a11yHidden">꽃 영문 이름</h3>
+                            <p class="subName eng">
+                                {{ flowerData.engName }}
+                            </p>
+                            <h3 class="a11yHidden">꽃 학명</h3>
+                            <p class="subName sct">
+                                {{ flowerData.sctName }}
+                            </p>
+                        </div>
+                    </div>
+                    <hr />
+                    <h3 class="a11yHidden">꽃말</h3>
+                    <strong class="flowerLanguage">
+                        " {{ flowerData.language }} "
+                    </strong>
+                    <h3 class="a11yHidden">꽃 정보</h3>
+                    <p
+                        class="flowerInfo"
+                        v-for="(content, index) in flowerData.content"
+                        :key="index"
+                        v-html="content"
+                    ></p>
+                </section>
+            </div>
+            <section>
+                <h3 class="subTitle">* 꽃 자생처</h3>
+                <p class="subInfo" v-html="flowerData.type"></p>
+                <h3 class="subTitle">* 꽃 기르는 법</h3>
+                <p class="subInfo" v-html="flowerData.grow"></p>
+                <h3 class="subTitle">* 꽃 용도</h3>
+                <p class="subInfo" v-html="flowerData.use"></p>
             </section>
-        </div>
-        <section>
-            <h3 class="subTitle">* 꽃 자생처</h3>
-            <p class="subInfo" v-html="flowerData.type"></p>
-            <h3 class="subTitle">* 꽃 기르는 법</h3>
-            <p class="subInfo" v-html="flowerData.grow"></p>
-            <h3 class="subTitle">* 꽃 용도</h3>
-            <p class="subInfo" v-html="flowerData.use"></p>
-        </section>
+        </template>
     </article>
 </template>
 
 <script lang="ts">
 import { mapState } from "vuex";
 import { GET_FLOWER_DATA } from "@/store";
+import Loading from "./Loading.vue";
 export default {
     data(): unknown {
         return {
@@ -117,6 +122,9 @@ export default {
         changeImg(imgSrc: string): void {
             this.thumbnail = imgSrc;
         },
+    },
+    components: {
+        Loading,
     },
 };
 </script>

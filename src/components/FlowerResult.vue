@@ -1,16 +1,22 @@
 <template>
     <article class="resultContainer" @click="$emit('redirect', searchFor)">
-        <img :src="img" alt="꽃 사진" class="thumbnail" />
-        <div class="textWrapper">
-            <p class="date">{{ month }}월 {{ day }}일</p>
-            <p class="flowerName">{{ flowerName }}</p>
-        </div>
+        <template v-if="flowerName && month && day && img">
+            <img :src="img" alt="꽃 사진" class="thumbnail" />
+            <div class="textWrapper">
+                <p class="date">{{ month }}월 {{ day }}일</p>
+                <p class="flowerName">{{ flowerName }}</p>
+            </div>
+        </template>
+        <template v-else>
+            <Loading />
+        </template>
     </article>
 </template>
 
 <script lang="ts">
 import { getData } from "@/store";
 import { mapState } from "vuex";
+import Loading from "./Loading.vue";
 
 export default {
     props: ["searchFor", "redirectResult"],
@@ -32,17 +38,23 @@ export default {
         this.day = result.getElementsByTagName("fDay")[0].textContent;
         this.img = result.getElementsByTagName("imgUrl1")[0].textContent;
     },
+    components: {
+        Loading,
+    },
 };
 </script>
 
 <style lang="scss">
 .resultContainer {
+    .loadingWrapper {
+        padding-top: 8px;
+        height: 86px;
+    }
     @include container(320, 0);
     border: 2px solid $GRAY;
     cursor: pointer;
-    @include flex(row, 0, normal, center);
+    @include flex(row, 20, normal, center);
     padding: 6px 10px;
-    gap: 20px;
     &:hover {
         transform: translateY(-4px);
         transition: transform 0.2s;
