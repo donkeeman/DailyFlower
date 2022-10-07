@@ -25,10 +25,7 @@ export default {};
         word-break: keep-all;
     }
     .linkWrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 24px;
+        @include flex(row, 24, center, center);
         a {
             @include setFontSize(20);
             text-decoration: underline;

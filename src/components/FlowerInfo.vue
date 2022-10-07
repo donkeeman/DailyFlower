@@ -147,8 +147,7 @@ export default {
         color: var(--font-color);
     }
     .upperWrapper {
-        display: flex;
-        gap: 24px;
+        @include flex(row, 24);
         margin: 36px auto 0;
         color: var(--font-color);
         .imgAlbum {
@@ -158,7 +157,6 @@ export default {
                 height: 315px;
                 object-fit: cover;
                 flex: 0 0 405px;
-                display: flex;
                 .thumbnail {
                     position: absolute;
                     top: 0;
@@ -169,8 +167,7 @@ export default {
             }
             .imgArray {
                 margin-top: 10px;
-                display: flex;
-                justify-content: space-between;
+                @include flex(row, 0, space-between);
                 object-fit: cover;
                 .imgs {
                     width: 128px;
@@ -183,14 +180,12 @@ export default {
             flex: 1 0 0;
         }
         .nameWrapper {
-            display: flex;
-            gap: 12px;
+            @include flex(row, 12);
             .flowerName {
                 @include setFontSize(40);
             }
             .subNameWrapper {
-                display: flex;
-                flex-direction: column;
+                @include flex(column);
                 .subName {
                     @include setFontSize(20);
                     line-height: 100%;

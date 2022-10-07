@@ -159,7 +159,7 @@ export default {
 
 <style lang="scss">
 .searchContainer {
-    @include container(1240, 10);
+    @include container(900, 12);
     text-align: center;
     padding: 48px 2% 36px;
     h2 {
@@ -168,10 +168,7 @@ export default {
     }
     .searchForm {
         margin: 40px auto;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 48px;
+        @include flex(row, 48, center, center);
         .fieldset {
             border: none;
             word-break: keep-all;
@@ -187,8 +184,8 @@ export default {
             }
             input[type="radio"] {
                 accent-color: var(--font-color);
-                width: 18px;
-                height: 18px;
+                width: 20px;
+                height: 20px;
                 vertical-align: -4px;
             }
             .select {
@@ -215,10 +212,8 @@ export default {
     }
     .resultSection {
         width: 100%;
-        display: flex;
+        @include flex(row, 12, center);
         flex-wrap: wrap;
-        justify-content: center;
-        gap: 12px;
     }
 }
 
@@ -241,10 +236,7 @@ export default {
         padding: 24px 5% 12px;
         .searchForm {
             margin: 20px auto;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            gap: 24px;
+            @include flex(column, 24, space-between, center);
             .fieldset {
                 .select {
                     padding: 0 4px 0 8px;

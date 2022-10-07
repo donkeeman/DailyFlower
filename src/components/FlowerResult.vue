@@ -40,8 +40,7 @@ export default {
     @include container(320, 0);
     border: 2px solid $GRAY;
     cursor: pointer;
-    display: flex;
-    align-items: center;
+    @include flex(row, 0, normal, center);
     padding: 6px 10px;
     gap: 20px;
     &:hover {
@@ -54,12 +53,9 @@ export default {
     }
     .textWrapper {
         color: $BLACK;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+        @include flex(column, 4, space-between);
         padding-top: 4px;
         text-align: left;
-        gap: 4px;
         .date {
             @include setFontSize(24);
         }
@@ -69,7 +65,7 @@ export default {
     }
 }
 
-@media screen and (max-width: 300px){
+@media screen and (max-width: 400px){
     .resultContainer{
         width: 240px;
     }

@@ -64,8 +64,7 @@ export default {
 .main {
     box-sizing: border-box;
     padding: 0 20px;
-    display: flex;
-    align-items: center;
+    @include flex(row, 0, normal, center);
     background-color: var(--background-color);
 }
 

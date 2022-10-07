@@ -50,9 +50,7 @@ export default {
     width: 100%;
     top: 0;
     left: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include flex(row, 0, space-between, center);
     padding: 12px 10%;
     background-color: $WHITE;
     border-bottom: 2px solid var(--background-color);
@@ -75,7 +73,6 @@ export default {
         &.fullscreen {
             display: flex;
         }
-        align-items: center;
         gap: 40px;
         padding-top: 7px;
         li {
