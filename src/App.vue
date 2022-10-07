@@ -15,6 +15,9 @@
                     <FlowerSearch />
                 </router-view>
             </template>
+            <template v-else>
+                <NotFound />
+            </template>
         </main>
     </div>
 </template>
@@ -24,6 +27,7 @@ import Header from "@/components/Header.vue";
 import TodayFlower from "./components/TodayFlower.vue";
 import FlowerInfo from "./components/FlowerInfo.vue";
 import FlowerSearch from "./components/FlowerSearch.vue";
+import NotFound from "./components/NotFound.vue";
 import { mapState } from "vuex";
 export default {
     components: {
@@ -31,6 +35,7 @@ export default {
         TodayFlower,
         FlowerInfo,
         FlowerSearch,
+        NotFound,
     },
     computed: {
         ...mapState(["defaultColor"]),
