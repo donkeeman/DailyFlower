@@ -1,11 +1,17 @@
 <template>
-    <div id="app" :style="setBackgroundColor">
+    <div id="app" :style="setColor">
         <Header></Header>
-        <main class="main" :style="setBackgroundColor">
+        <main class="main">
             <template v-if="getPath === ''">
                 <TodayFlower />
             </template>
-            <template v-else-if="getPath === 'info' && $route.params.dataNo >= 1 && $route.params.dataNo <= 366">
+            <template
+                v-else-if="
+                    getPath === 'info' &&
+                    $route.params.dataNo >= 1 &&
+                    $route.params.dataNo <= 366
+                "
+            >
                 <router-view :key="$route.fullPath">
                     <FlowerInfo />
                 </router-view>
@@ -42,8 +48,9 @@ export default {
         getPath(): string {
             return this.$route.path.split("/")[1];
         },
-        setBackgroundColor(): unknown {
+        setColor(): unknown {
             return {
+                "--font-color": this.defaultColor.font,
                 "--background-color": this.defaultColor.background,
             };
         },
@@ -59,6 +66,9 @@ export default {
     background-color: var(--background-color);
     font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
     color: $BLACK;
+    scrollbar-color: rgba(var(--font-color), 0.6) transperant;
+    scrollbar-width: thin;
+    overflow-y: scroll;
 }
 
 .main {
@@ -77,10 +87,27 @@ export default {
         background-color: $WHITE;
     }
     .main {
-        overflow-x: hidden;
         padding: 0;
         margin: 0;
         background-color: $WHITE;
+        overflow-x: hidden;
     }
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--font-color), 0.6);
+}
+
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 </style>
