@@ -1,5 +1,5 @@
 <template>
-    <div class="loadingWrapper">
+    <div class="loadingWrapper" :style="setFontColor">
         <!-- 5초가 지나도 데이터가 없으면 다시 시도 메시지 출력 -->
         <p class="loading" v-if="!isFailed">불러오는 중...</p>
         <template v-else>
@@ -25,6 +25,8 @@
 </template>
 
 <script lang="ts">
+import { mapState } from "vuex";
+
 export default {
     data(): unknown {
         return {
@@ -37,12 +39,21 @@ export default {
             this.isFailed = true;
         }, 5000);
     },
+    computed: {
+        ...mapState(["defaultColor"]),
+        setFontColor(): unknown {
+            return {
+                "--font-color": this.defaultColor.font,
+            };
+        },
+    },
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .loadingWrapper {
     @include flex(column, 20, center, center);
+    text-align: center;
     height: 550px;
     .loading,
     .failed {
@@ -55,9 +66,10 @@ export default {
             @include setFontSize(20);
             text-decoration: underline;
             cursor: pointer;
+            color: rgb(var(--font-color));
         }
     }
-    .button{
+    .button {
         z-index: 30;
     }
 }
