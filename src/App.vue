@@ -5,7 +5,7 @@
             <template v-if="getPath === ''">
                 <TodayFlower />
             </template>
-            <template v-else-if="getPath === 'info'">
+            <template v-else-if="getPath === 'info' && $route.params.dataNo >= 1 && $route.params.dataNo <= 366">
                 <router-view :key="$route.fullPath">
                     <FlowerInfo />
                 </router-view>
