@@ -6,7 +6,7 @@
         </router-link>
         <nav>
             <ul class="nav fullscreen">
-                <li><router-link to="/search">날짜로 검색하기</router-link></li>
+                <li><router-link to="/search">검색하기</router-link></li>
                 <li>
                     <router-link :to="getRandom">랜덤으로 보기</router-link>
                 </li>
