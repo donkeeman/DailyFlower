@@ -3,30 +3,22 @@
         <h2>검색하기</h2>
         <form class="searchForm">
             <fieldset class="fieldset range">
-                <legend class="a11yHidden">날짜 또는 범위 선택</legend>
-                <label for="single">
-                    <input
-                        v-model="isRange"
-                        type="radio"
-                        name="isRange"
-                        id="single"
-                        :value="false"
-                    />
-                    날짜
-                </label>
-                <label for="range">
-                    <input
-                        v-model="isRange"
-                        type="radio"
-                        name="isRange"
-                        id="range"
-                        :value="true"
-                    />
-                    범위
-                </label>
+                <legend class="a11yHidden">검색 필터</legend>
+                <select class="select" v-model="searchType">
+                    <option value="date">날짜 (단일)</option>
+                    <option value="range">날짜 (범위)</option>
+                    <option value="name">꽃 이름</option>
+                    <option value="lang">꽃말</option>
+                    <option value="etc">기타</option>
+                </select>
             </fieldset>
-            <fieldset class="fieldset search">
-                <label class="message" for="date" v-if="!isRange">
+            <!-- 날짜, 날짜 범위 등 날짜 검색인 경우 -->
+            <fieldset
+                class="fieldset date"
+                v-if="searchType === 'date' || searchType === 'range'"
+            >
+                <legend class="a11yHidden">검색 정보 입력</legend>
+                <label class="message" for="date" v-if="searchType === 'date'">
                     날짜를 선택해 주세요.
                 </label>
                 <label class="message" for="date" v-else>
@@ -34,7 +26,7 @@
                 </label>
                 <select name="date" v-model="startMonth" class="select">
                     <option
-                        v-for="(_, index) in MONTH"
+                        v-for="(_, index) in monthArr"
                         :key="index"
                         :value="index"
                     >
@@ -43,16 +35,20 @@
                 </select>
                 <span>월</span>
                 <select v-model="startDay" class="select">
-                    <option v-for="i in MONTH[startMonth]" :key="i" :value="i">
+                    <option
+                        v-for="i in monthArr[startMonth]"
+                        :key="i"
+                        :value="i"
+                    >
                         {{ i }}
                     </option>
                 </select>
                 <span>일</span>
-                <template v-if="isRange">
+                <template v-if="searchType === 'range'">
                     <span class="divide">~</span>
                     <select name="date" v-model="endMonth" class="select">
                         <option
-                            v-for="(_, index) in MONTH"
+                            v-for="(_, index) in monthArr"
                             :key="index"
                             :value="index"
                         >
@@ -62,7 +58,7 @@
                     <span>월</span>
                     <select v-model="endDay" class="select">
                         <option
-                            v-for="i in MONTH[endMonth]"
+                            v-for="i in monthArr[endMonth]"
                             :key="i"
                             :value="i"
                         >
@@ -72,15 +68,49 @@
                     <span>일</span>
                 </template>
             </fieldset>
+            <!-- 꽃 이름, 꽃말, 기타 등 input:text인 경우 -->
+            <fieldset class="fieldset" v-else>
+                <label
+                    for="search"
+                    class="message"
+                    v-if="searchType === 'name'"
+                >
+                    꽃 이름을 입력해 주세요.
+                </label>
+                <label
+                    for="search"
+                    class="message"
+                    v-else-if="searchType === 'lang'"
+                >
+                    꽃말을 입력해 주세요.
+                </label>
+                <label for="search" class="message" v-else>
+                    키워드를 입력해 주세요.
+                </label>
+                <input
+                    type="text"
+                    id="search"
+                    v-if="searchType === 'name'"
+                    placeholder="한글 또는 영어로 작성해 주세요."
+                />
+                <input
+                    type="text"
+                    id="search"
+                    v-else
+                    placeholder="한글로 작성해 주세요."
+                />
+            </fieldset>
             <button
                 type="button"
-                @click="isRange ? showResult() : redirectToResult()"
+                @click="
+                    isearchType !== 'date' ? showResult() : redirectToResult()
+                "
                 class="button search"
             >
                 검색
             </button>
         </form>
-        <section v-if="resultArr.length !== 0 && isRange">
+        <section v-if="resultArr.length !== 0 && searchType !== 'date'">
             <h3 class="a11yHidden">검색 결과</h3>
             <ol class="resultSection">
                 <li v-for="num in sliceResult()" :key="num">
@@ -106,18 +136,12 @@
 import FlowerResult from "./FlowerResult.vue";
 import { mapState } from "vuex";
 
-const MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-const calculateDataNo = (month: number, day: number): number => {
-    return MONTH.slice(0, month).reduce((a, b) => a + b, 0) + day;
-};
-
 export default {
     data(): unknown {
         return {
-            MONTH: MONTH,
+            monthArr: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+            searchType: "date",
             resultArr: [],
-            isRange: false,
             selectedMonth: 0,
             selectedDay: 1,
             startMonth: 0,
@@ -138,7 +162,7 @@ export default {
     methods: {
         redirectToResult(dataNo = 0): void {
             if (dataNo === 0) {
-                dataNo = calculateDataNo(this.startMonth, this.startDay);
+                dataNo = this.calculateDataNo(this.startMonth, this.startDay);
             }
             this.$router.push({
                 path: "/info/" + dataNo,
@@ -148,8 +172,11 @@ export default {
             this.resultCount = 1;
             this.resultArr.length = 0;
             this.resultArr = [];
-            const startDate = calculateDataNo(this.startMonth, this.startDay);
-            let endDate = calculateDataNo(this.endMonth, this.endDay);
+            const startDate = this.calculateDataNo(
+                this.startMonth,
+                this.startDay
+            );
+            let endDate = this.calculateDataNo(this.endMonth, this.endDay);
             if (startDate === endDate) {
                 this.redirectToResult(startDate);
             }
@@ -166,6 +193,13 @@ export default {
         },
         sliceResult(): Array<number> {
             return this.resultArr.slice(0, 10 * this.resultCount);
+        },
+        calculateDataNo(month: number, day: number): number {
+            return (
+                this.monthArr
+                    .slice(0, month)
+                    .reduce((a: number, b: number) => a + b, 0) + day
+            );
         },
     },
     components: {
@@ -209,12 +243,6 @@ export default {
             .message {
                 display: block;
             }
-            input[type="radio"] {
-                accent-color: rgb(var(--font-color));
-                width: 20px;
-                height: 20px;
-                vertical-align: -4px;
-            }
             .select {
                 @include setFontSize(14);
                 display: inline-block;
@@ -224,6 +252,20 @@ export default {
                 border: 2px solid $GRAY;
                 border-radius: 6px;
                 background-color: $WHITE;
+            }
+            input[type="text"] {
+                @include setFontSize(14);
+                display: inline-block;
+                height: 32px;
+                padding: 0 10px;
+                margin: 0;
+                border: 2px solid $GRAY;
+                border-radius: 6px;
+                background-color: $WHITE;
+                &::placeholder {
+                    font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
+                    font-style: italic;
+                }
             }
         }
     }
@@ -241,7 +283,7 @@ export default {
 @media screen and (max-width: 800px) {
     .searchContainer {
         .searchForm {
-            gap: 12px;
+            gap: 24px;
             .fieldset {
                 .message,
                 .divide {
