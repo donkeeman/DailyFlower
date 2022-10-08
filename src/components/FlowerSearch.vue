@@ -104,8 +104,14 @@
 
 <script lang="ts">
 import FlowerResult from "./FlowerResult.vue";
-import { MONTH, calculateDataNo } from "@/store";
 import { mapState } from "vuex";
+
+const MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+const calculateDataNo = (month: number, day: number): number => {
+    return MONTH.slice(0, month).reduce((a, b) => a + b, 0) + day;
+};
+
 export default {
     data(): unknown {
         return {

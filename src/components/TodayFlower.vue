@@ -4,11 +4,7 @@
             <Loading
                 :retry="
                     () => {
-                        $store.commit(INITIALIZE_DATE);
-                        $store.dispatch(
-                            GET_FLOWER_DATA,
-                            $store.state.today.dataNo
-                        );
+                        $store.dispatch(GET_FLOWER_DATA);
                     }
                 "
             />
@@ -22,7 +18,7 @@
             <strong class="flowerName">{{ flowerData.korName }}</strong>
             <h3 class="a11yHidden">꽃말</h3>
             <p class="flowerLanguage">" {{ flowerData.language }} "</p>
-            <router-link :to="'/info/' + today.dataNo" class="infoLink">
+            <router-link :to="'/info/' + flowerData.dataNo" class="infoLink">
                 자세히 알아보기
             </router-link>
         </template>
@@ -31,11 +27,11 @@
 
 <script lang="ts">
 import { mapState } from "vuex";
-import { INITIALIZE_DATE, GET_FLOWER_DATA } from "@/store";
+import { GET_FLOWER_DATA } from "@/store";
 import Loading from "./Loading.vue";
 export default {
     computed: {
-        ...mapState(["today", "flowerData", "defaultColor"]),
+        ...mapState(["flowerData", "defaultColor"]),
         setFontColor(): unknown {
             return {
                 "--font-color": this.defaultColor.font,
@@ -43,8 +39,7 @@ export default {
         },
     },
     mounted(): void {
-        this.$store.commit(INITIALIZE_DATE);
-        this.$store.dispatch(GET_FLOWER_DATA, this.$store.state.today.dataNo);
+        this.$store.dispatch(GET_FLOWER_DATA);
     },
     components: {
         Loading,

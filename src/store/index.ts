@@ -43,35 +43,29 @@ const upperFirstChar = (str: string): string => {
     return str[0].toUpperCase() + str.slice(1);
 };
 
-export const MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-export const calculateDataNo = (month: number, day: number): number => {
-    return MONTH.slice(0, month).reduce((a, b) => a + b, 0) + day;
-};
-
-export const getData = async (dataNo: number): Promise<Document> => {
-    const queryString = `?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dataNo}`;
+export const getData = async (dataNo = 0): Promise<Document> => {
+    let queryString;
+    if (!dataNo) {
+        queryString = `/selectTodayFlower01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}`;
+    } else {
+        queryString = `/selectTodayFlowerView01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dataNo}`;
+    }
     const response = await axios.get(axios.defaults.baseURL + queryString);
     const data = await response.data;
     const result = new DOMParser().parseFromString(data, "text/xml");
     return result;
 };
 
-export const INITIALIZE_DATE = "INITIALIZE_DATE";
 export const SET_FLOWER = "SET_FLOWER";
 export const GET_FLOWER_DATA = "GET_FLOWER_DATA";
 export const SET_DEFAULT_COLOR = "SET_DEFAULT_COLOR";
 
 export default new Vuex.Store({
     state: {
-        today: {
-            month: 0,
-            day: 0,
-            dataNo: 0,
-        },
         flowerData: {
             month: 0,
             day: 0,
+            dataNo: 0,
             korName: "",
             engName: "",
             sctName: "",
@@ -88,26 +82,26 @@ export default new Vuex.Store({
         },
     },
     mutations: {
-        // 페이지를 열 때마다 오늘의 날짜를 얻어와서 초기화
-        [INITIALIZE_DATE](state) {
-            const date = new Date();
-            state.today = {
-                month: date.getMonth() + 1,
-                day: date.getDate(),
-                dataNo: calculateDataNo(date.getMonth(), date.getDate()),
-            };
-        },
         [SET_FLOWER](state, data) {
             state.flowerData = data;
         },
-        [SET_DEFAULT_COLOR](state, dataNo) {
-            if (dataNo >= 61 && dataNo <= 152) {
+        [SET_DEFAULT_COLOR](state) {
+            if (
+                state.flowerData.dataNo >= 61 &&
+                state.flowerData.dataNo <= 152
+            ) {
                 state.defaultColor.font = FONT_COLOR.SPRING;
                 state.defaultColor.background = BACKGROUND_COLOR.SPRING;
-            } else if (dataNo >= 153 && dataNo <= 244) {
+            } else if (
+                state.flowerData.dataNo >= 153 &&
+                state.flowerData.dataNo <= 244
+            ) {
                 state.defaultColor.font = FONT_COLOR.SUMMER;
                 state.defaultColor.background = BACKGROUND_COLOR.SUMMER;
-            } else if (dataNo >= 245 && dataNo <= 335) {
+            } else if (
+                state.flowerData.dataNo >= 245 &&
+                state.flowerData.dataNo <= 335
+            ) {
                 state.defaultColor.font = FONT_COLOR.FALL;
                 state.defaultColor.background = BACKGROUND_COLOR.FALL;
             } else {
@@ -117,7 +111,7 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async [GET_FLOWER_DATA]({ commit }, dataNo) {
+        async [GET_FLOWER_DATA]({ commit }, number) {
             commit(SET_FLOWER, {
                 month: 0,
                 day: 0,
@@ -132,10 +126,12 @@ export default new Vuex.Store({
                 type: "",
             });
             try {
-                const result = await getData(dataNo);
+                const result = await getData(number);
                 const month =
                     result.getElementsByTagName("fMonth")[0].textContent;
                 const day = result.getElementsByTagName("fDay")[0].textContent;
+                const dataNo =
+                    result.getElementsByTagName("dataNo")[0].textContent;
                 const korName =
                     result.getElementsByTagName("flowNm")[0].textContent;
                 const engName = upperFirstChar(
@@ -176,6 +172,7 @@ export default new Vuex.Store({
                     day,
                     korName,
                     engName,
+                    dataNo,
                     sctName,
                     language,
                     imgArray,
@@ -184,7 +181,7 @@ export default new Vuex.Store({
                     grow,
                     type,
                 });
-                commit(SET_DEFAULT_COLOR, dataNo);
+                commit(SET_DEFAULT_COLOR);
                 return;
             } catch (error) {
                 console.error(error);
