@@ -37,7 +37,7 @@ export default {
     created(): void {
         setTimeout(() => {
             this.isFailed = true;
-        }, 5000);
+        }, 10000);
     },
     computed: {
         ...mapState(["defaultColor"]),
