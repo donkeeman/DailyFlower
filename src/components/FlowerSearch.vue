@@ -103,7 +103,7 @@
             <button
                 type="button"
                 @click="
-                    isearchType !== 'date' ? showResult() : redirectToResult()
+                    searchType !== 'date' ? showResult() : redirectToResult()
                 "
                 class="button search"
             >
