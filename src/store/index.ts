@@ -22,7 +22,7 @@ const breakLine = (str: string): Array<string> => {
     return str
         ?.split(/다\. /g)
         .map((elem, index, arr) => {
-            elem = elem.replace(/<[/]*p>|\r|\n|amp;/g, "");
+            elem = elem.replace(/<[/]*p>|\r|\n|amp;/g, "").replace(".'", ".");
             if (index !== arr.length - 1) {
                 return elem + "다.";
             } else {
