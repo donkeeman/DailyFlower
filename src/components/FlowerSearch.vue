@@ -5,7 +5,7 @@
             <fieldset class="fieldset range">
                 <legend class="a11yHidden">검색 필터</legend>
                 <select
-                    class="select"
+                    class="select type"
                     v-model="searchType"
                     @change="clearResult"
                 >
@@ -13,7 +13,6 @@
                     <option value="range">날짜 (범위)</option>
                     <option value="name">꽃 이름</option>
                     <option value="lang">꽃말</option>
-                    <option value="etc">기타</option>
                 </select>
             </fieldset>
             <!-- 날짜, 날짜 범위 등 날짜 검색인 경우 -->
@@ -28,7 +27,7 @@
                 <label class="message" for="date" v-else>
                     날짜 범위를 선택해 주세요.
                 </label>
-                <select name="date" v-model="startMonth" class="select">
+                <select name="date" v-model="startMonth" class="select date">
                     <option
                         v-for="(_, index) in monthArr"
                         :key="index"
@@ -38,7 +37,7 @@
                     </option>
                 </select>
                 <span>월</span>
-                <select v-model="startDay" class="select">
+                <select v-model="startDay" class="select date">
                     <option
                         v-for="i in monthArr[startMonth]"
                         :key="i"
@@ -50,7 +49,7 @@
                 <span>일</span>
                 <template v-if="searchType === 'range'">
                     <span class="divide">~</span>
-                    <select name="date" v-model="endMonth" class="select">
+                    <select name="date" v-model="endMonth" class="select date">
                         <option
                             v-for="(_, index) in monthArr"
                             :key="index"
@@ -60,7 +59,7 @@
                         </option>
                     </select>
                     <span>월</span>
-                    <select v-model="endDay" class="select">
+                    <select v-model="endDay" class="select date">
                         <option
                             v-for="i in monthArr[endMonth]"
                             :key="i"
@@ -73,7 +72,7 @@
                 </template>
             </fieldset>
             <!-- 꽃 이름, 꽃말, 기타 등 input:text인 경우 -->
-            <fieldset class="fieldset" v-else>
+            <fieldset class="fieldset text" v-else>
                 <label
                     for="search"
                     class="message"
@@ -87,9 +86,6 @@
                     v-else-if="searchType === 'lang'"
                 >
                     꽃말을 입력해 주세요.
-                </label>
-                <label for="search" class="message" v-else>
-                    키워드를 입력해 주세요.
                 </label>
                 <input
                     type="text"
@@ -292,16 +288,19 @@ export default {
     }
     .searchForm {
         margin: 40px auto;
-        @include flex(row, 48, center, center);
+        @include flex(row, 70, center, center);
         .fieldset {
             border: none;
             word-break: keep-all;
             label,
             span {
                 @include setFontSize(20);
-                margin: 0 4px;
-                vertical-align: middle;
                 display: inline-block;
+                margin: 0 4px;
+                &.divide{
+                    margin-right: 8px;
+                }
+                vertical-align: middle;
             }
             .message {
                 display: block;
@@ -310,11 +309,16 @@ export default {
                 @include setFontSize(14);
                 display: inline-block;
                 height: 32px;
-                padding: 0 10px 0 20px;
                 margin: 0;
                 border: 2px solid $GRAY;
                 border-radius: 6px;
                 background-color: $WHITE;
+                &.date {
+                    padding: 0 10px 0 20px;
+                }
+                &.type {
+                    padding: 0 10px;
+                }
             }
             input[type="text"] {
                 @include setFontSize(14);
