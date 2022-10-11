@@ -39,10 +39,7 @@ export default {
             dataNo: 0,
         };
     },
-    computed: {
-        ...mapState(["defaultColor"]),
-    },
-    async mounted(): void {
+    async mounted(): Promise<void> {
         if (this.searchFor) {
             const result = await getDataByDate(this.searchFor);
             if (result) {

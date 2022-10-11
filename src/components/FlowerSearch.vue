@@ -71,7 +71,7 @@
                     <span>일</span>
                 </template>
             </fieldset>
-            <!-- 꽃 이름, 꽃말, 기타 등 input:text인 경우 -->
+            <!-- 꽃 이름, 꽃말 등 input:text인 경우 -->
             <fieldset class="fieldset text" v-else>
                 <label
                     for="search"
@@ -148,6 +148,7 @@ import FlowerResult from "./FlowerResult.vue";
 import Loading from "./Loading.vue";
 import { mapState } from "vuex";
 import { getDataByKorName, getDataByEngName, getDataByLang } from "@/store";
+import { StyleValue } from "@vue/runtime-dom";
 
 export default {
     data(): unknown {
@@ -168,7 +169,7 @@ export default {
     },
     computed: {
         ...mapState(["defaultColor"]),
-        setFontColor(): unknown {
+        setFontColor(): StyleValue {
             return {
                 "--font-color": this.defaultColor.font,
             };
@@ -363,28 +364,6 @@ export default {
         width: 100%;
     }
 }
-
-/* @media screen and (max-width: 850px) {
-    .searchContainer {
-        .searchForm {
-            gap: 24px;
-            .fieldset {
-                label,
-                span {
-                    @include setFontSize(20);
-                }
-                .divide {
-                    display: block;
-                }
-            .select {
-                &.type {
-                    padding: 0 4px;
-                }
-            }
-            }
-        }
-    }
-} */
 
 @media screen and (max-width: 850px) {
     .searchContainer {

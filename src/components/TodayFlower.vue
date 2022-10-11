@@ -29,10 +29,11 @@
 import { mapState } from "vuex";
 import { GET_FLOWER_DATA } from "@/store";
 import Loading from "./Loading.vue";
+import { StyleValue } from "@vue/runtime-dom";
 export default {
     computed: {
         ...mapState(["flowerData", "defaultColor"]),
-        setFontColor(): unknown {
+        setFontColor(): StyleValue {
             return {
                 "--font-color": this.defaultColor.font,
             };

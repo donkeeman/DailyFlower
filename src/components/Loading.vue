@@ -25,6 +25,7 @@
 </template>
 
 <script lang="ts">
+import { StyleValue } from "@vue/runtime-dom";
 import { mapState } from "vuex";
 
 export default {
@@ -41,7 +42,7 @@ export default {
     },
     computed: {
         ...mapState(["defaultColor"]),
-        setFontColor(): unknown {
+        setFontColor(): StyleValue {
             return {
                 "--font-color": this.defaultColor.font,
             };

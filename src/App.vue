@@ -8,8 +8,8 @@
             <template
                 v-else-if="
                     getPath === 'info' &&
-                    $route.params.dataNo >= 1 &&
-                    $route.params.dataNo <= 366
+                    parseInt($route.params.dataNo) >= 1 &&
+                    parseInt($route.params.dataNo) <= 366
                 "
             >
                 <router-view :key="$route.fullPath">
@@ -36,6 +36,7 @@ import FlowerInfo from "./components/FlowerInfo.vue";
 import FlowerSearch from "./components/FlowerSearch.vue";
 import NotFound from "./components/NotFound.vue";
 import { mapState } from "vuex";
+import { StyleValue } from "@vue/runtime-dom";
 export default {
     components: {
         Header,
@@ -49,7 +50,7 @@ export default {
         getPath(): string {
             return this.$route.path.split("/")[1];
         },
-        setColor(): unknown {
+        setColor(): StyleValue {
             return {
                 "--font-color": this.defaultColor.font,
                 "--background-color": this.defaultColor.background,
@@ -83,7 +84,7 @@ export default {
     @include a11yHidden();
 }
 
-.meta{
+.meta {
     display: none;
 }
 
