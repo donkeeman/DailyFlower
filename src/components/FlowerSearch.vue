@@ -116,7 +116,10 @@
                 <Loading />
             </template>
             <template v-else>
-                <ol class="resultSection">
+                <p class="noResult" v-if="resultArr[0] === -1">
+                    검색 결과가 없습니다.
+                </p>
+                <ol class="resultList" v-else>
                     <template v-if="searchType === 'range'">
                         <li v-for="num in sliceResult()" :key="num">
                             <FlowerResult
@@ -220,25 +223,29 @@ export default {
             if (startDate > endDate) {
                 endDate += 366;
             }
+            const numArr = [];
             for (let i = startDate; i <= endDate; i++) {
                 if (i > 366) {
-                    this.resultArr.push(i - 366);
+                    numArr.push(i - 366);
                 } else {
-                    this.resultArr.push(i);
+                    numArr.push(i);
                 }
             }
+            this.resultArr = numArr.length ? numArr : [-1];
             this.isSearching = false;
         },
         async showResultByLang(word: string): Promise<void> {
             this.clearResult();
-            this.isSearching = true;
-            if (!word.trim()) {
+            if (!word || !word.trim()) {
+                this.resultArr = [-1];
                 return;
             }
+            this.isSearching = true;
             const result = await getDataByLang(word);
-            this.resultArr = Array.from(
+            const elemArr = Array.from(
                 result.getElementsByTagName("result")
             ).reverse();
+            this.resultArr = elemArr.length ? elemArr : [-1];
             this.isSearching = false;
         },
         sliceResult(): Array<number> {
@@ -328,7 +335,12 @@ export default {
     .loadingWrapper {
         height: 300px;
     }
-    .resultSection {
+    .noResult {
+        @include flex(row, 0, center, center);
+        @include setFontSize(32);
+        height: 300px;
+    }
+    .resultList {
         width: 100%;
         @include flex(row, 12, center);
         flex-wrap: wrap;

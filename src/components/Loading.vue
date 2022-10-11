@@ -57,7 +57,7 @@ export default {
     height: 550px;
     .loading,
     .failed {
-        font-size: 32px;
+        @include setFontSize(32);
         color: $BLACK;
     }
     .linkWrapper {
