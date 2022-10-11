@@ -278,7 +278,7 @@ export default {
 <style lang="scss">
 .searchContainer {
     .button {
-        @include setFontSize(16);
+        @include setFontSize(18);
         font-family: "ChosunGs", "GangwonEdu_OTFBoldA";
         border: 2px solid $GRAY;
         border-radius: 10px;
@@ -296,13 +296,13 @@ export default {
     }
     .searchForm {
         margin: 40px auto;
-        @include flex(row, 70, center, center);
+        @include flex(row, 64, center, center);
         .fieldset {
             border: none;
             word-break: keep-all;
             label,
             span {
-                @include setFontSize(20);
+                @include setFontSize(24);
                 display: inline-block;
                 margin: 0 4px;
                 &.divide {
@@ -312,9 +312,10 @@ export default {
             }
             .message {
                 display: block;
+                margin-bottom: 8px;
             }
             .select {
-                @include setFontSize(14);
+                @include setFontSize(16);
                 display: inline-block;
                 height: 32px;
                 margin: 0;
@@ -329,7 +330,7 @@ export default {
                 }
             }
             input[type="text"] {
-                @include setFontSize(14);
+                @include setFontSize(16);
                 display: inline-block;
                 height: 32px;
                 padding: 0 10px;
@@ -363,38 +364,72 @@ export default {
     }
 }
 
-@media screen and (max-width: 800px) {
+/* @media screen and (max-width: 850px) {
     .searchContainer {
         .searchForm {
             gap: 24px;
             .fieldset {
-                .message,
+                label,
+                span {
+                    @include setFontSize(20);
+                }
                 .divide {
                     display: block;
                 }
+            .select {
+                &.type {
+                    padding: 0 4px;
+                }
+            }
+            }
+        }
+    }
+} */
+
+@media screen and (max-width: 850px) {
+    .searchContainer {
+        padding: 24px 5% 12px;
+        .searchForm {
+            margin: 20px auto;
+            @include flex(column, 36, space-between, center);
+            .fieldset {
+                label,
+                span {
+                    @include setFontSize(24);
+                }
+                .message {
+                    margin-bottom: 12px;
+                }
+                .divide {
+                    margin: 4px 0 0 0;
+                }
+                .select {
+                    padding: 0 4px 0 8px;
+                    @include setFontSize(18);
+                }
+                input[type="text"] {
+                    @include setFontSize(18);
+                }
+            }
+            .button {
+                width: 100%;
+                padding: 10px 0 6px;
+            }
+            .resultSection {
+                flex-direction: column;
             }
         }
     }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 600px) {
     .searchContainer {
-        padding: 24px 5% 12px;
         .searchForm {
-            margin: 20px auto;
-            @include flex(column, 24, space-between, center);
             .fieldset {
-                .select {
-                    padding: 0 4px 0 8px;
+                .divide {
+                    display: block;
                 }
             }
-            .button {
-                padding: 8px 8px 4px;
-                width: 100%;
-            }
-        }
-        .resultSection {
-            flex-direction: column;
         }
     }
 }
