@@ -3,7 +3,7 @@
 날짜별로 오늘의 꽃을 소개하는 웹 사이트입니다.  
 
 [라이브 데모 링크](https://daily-flower.web.app)  
-[피그마 ](https://www.figma.com/file/OuuCbxVGE1NpNbz3pNOUNb/DailyFlower?node-id=6%3A70)
+[피그마](https://www.figma.com/file/OuuCbxVGE1NpNbz3pNOUNb/DailyFlower?node-id=6%3A70)
 
 ## 스택
 
@@ -20,7 +20,6 @@
 ## 기능
 추후 추가
 
-## (해야 할 것)
-- ~~꽃 이름, 꽃말, 기타 키워드 검색 기능~~
-- ~~오늘의 꽃 공유 기능 페이스북 & 카카오톡: 기본, 기타 sns: 옵션~~
-- ~~mixin, component, 중복 함수 있다면 최적화~~
+## 추후 보완하고 싶은 점
+- 학명으로도 검색할 수 있도록 하기
+- 다크 모드용 색상 및 로고 변경하기
