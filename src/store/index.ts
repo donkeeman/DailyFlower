@@ -43,17 +43,21 @@ const upperFirstChar = (str: string): string => {
     return str[0].toUpperCase() + str.slice(1);
 };
 
-export const getData = async (dataNo = 0): Promise<Document> => {
-    let queryString;
-    if (!dataNo) {
-        queryString = `/selectTodayFlower01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}`;
-    } else {
-        queryString = `/selectTodayFlowerView01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dataNo}`;
-    }
+const getData = async (queryString: string): Promise<Document> => {
     const response = await axios.get(axios.defaults.baseURL + queryString);
     const data = await response.data;
     const result = new DOMParser().parseFromString(data, "text/xml");
     return result;
+};
+
+export const getDataByToday = async (): Promise<Document> => {
+    const queryString = `/selectTodayFlower01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}`;
+    return await getData(queryString);
+};
+
+export const getDataByDate = async (dataNo: number): Promise<Document> => {
+    const queryString = `/selectTodayFlowerView01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&dataNo=${dataNo}`;
+    return await getData(queryString);
 };
 
 export const SET_FLOWER = "SET_FLOWER";
@@ -111,7 +115,7 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        async [GET_FLOWER_DATA]({ commit }, number) {
+        async [GET_FLOWER_DATA]({ commit }, number = 0) {
             commit(SET_FLOWER, {
                 month: 0,
                 day: 0,
@@ -126,7 +130,12 @@ export default new Vuex.Store({
                 type: "",
             });
             try {
-                const result = await getData(number);
+                let result;
+                if (!number) {
+                    result = await getDataByToday();
+                } else {
+                    result = await getDataByDate(number);
+                }
                 const month =
                     result.getElementsByTagName("fMonth")[0].textContent;
                 const day = result.getElementsByTagName("fDay")[0].textContent;

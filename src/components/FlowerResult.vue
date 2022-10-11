@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { getData } from "@/store";
+import { getDataByDate } from "@/store";
 import { mapState } from "vuex";
 import Loading from "./Loading.vue";
 
@@ -39,7 +39,7 @@ export default {
     },
     methods: {
         async returnData(dataNo: number): Promise<Document | undefined> {
-            return await getData(dataNo);
+            return await getDataByDate(dataNo);
         },
     },
     async mounted(): void {
