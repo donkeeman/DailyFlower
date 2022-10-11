@@ -90,15 +90,12 @@
                 <input
                     type="text"
                     id="search"
-                    v-if="searchType === 'name'"
-                    placeholder="한글 또는 영어로 작성해 주세요."
-                />
-                <input
-                    type="text"
-                    id="search"
+                    :placeholder="
+                        searchType === 'name'
+                            ? '한글 또는 영어로 작성해 주세요.'
+                            : '한글로 작성해 주세요.'
+                    "
                     v-model="searchWord"
-                    v-else
-                    placeholder="한글로 작성해 주세요."
                     @keydown="searchByEnter"
                 />
             </fieldset>
@@ -150,7 +147,7 @@
 import FlowerResult from "./FlowerResult.vue";
 import Loading from "./Loading.vue";
 import { mapState } from "vuex";
-import { getDataByLang } from "@/store";
+import { getDataByKorName, getDataByEngName, getDataByLang } from "@/store";
 
 export default {
     data(): unknown {
@@ -190,10 +187,16 @@ export default {
                     this.redirectToResult();
                     break;
                 case "range":
-                    this.showResultByDate();
+                    this.showResultByDate(
+                        this.calculateDataNo(this.startMonth, this.startDay),
+                        this.calculateDataNo(this.endMonth, this.endDay)
+                    );
+                    break;
+                case "name":
+                    this.showResultByText(this.searchWord);
                     break;
                 case "lang":
-                    this.showResultByLang(this.searchWord);
+                    this.showResultByText(this.searchWord);
                     break;
             }
         },
@@ -205,14 +208,9 @@ export default {
                 path: "/info/" + dataNo,
             });
         },
-        showResultByDate(): void {
+        showResultByDate(startDate: number, endDate: number): void {
             this.clearResult();
             this.isSearching = true;
-            const startDate = this.calculateDataNo(
-                this.startMonth,
-                this.startDay
-            );
-            let endDate = this.calculateDataNo(this.endMonth, this.endDay);
             if (startDate === endDate) {
                 this.redirectToResult(startDate);
             }
@@ -230,14 +228,24 @@ export default {
             this.resultArr = numArr.length ? numArr : [-1];
             this.isSearching = false;
         },
-        async showResultByLang(word: string): Promise<void> {
+        async showResultByText(word: string): Promise<void> {
             this.clearResult();
-            if (!word || !word.trim()) {
+            word = word.trim();
+            if (!word) {
                 this.resultArr = [-1];
                 return;
             }
             this.isSearching = true;
-            const result = await getDataByLang(word);
+            let result;
+            if (this.searchType === "name") {
+                if (/[A-Za-z ]/g.test(word)) {
+                    result = await getDataByEngName(word);
+                } else {
+                    result = await getDataByKorName(word);
+                }
+            } else {
+                result = await getDataByLang(word);
+            }
             const elemArr = Array.from(
                 result.getElementsByTagName("result")
             ).reverse();
@@ -297,7 +305,7 @@ export default {
                 @include setFontSize(20);
                 display: inline-block;
                 margin: 0 4px;
-                &.divide{
+                &.divide {
                     margin-right: 8px;
                 }
                 vertical-align: middle;
