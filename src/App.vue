@@ -25,6 +25,7 @@
                 <NotFound />
             </template>
         </main>
+        <img src="@/assets/img/meta.png" alt="메타 태그 이미지" class="meta" />
     </div>
 </template>
 
@@ -80,6 +81,10 @@ export default {
 
 .a11yHidden {
     @include a11yHidden();
+}
+
+.meta{
+    display: none;
 }
 
 @media screen and (max-width: 300px) {
