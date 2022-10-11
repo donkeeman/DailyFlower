@@ -4,7 +4,11 @@
         <form class="searchForm">
             <fieldset class="fieldset range">
                 <legend class="a11yHidden">검색 필터</legend>
-                <select class="select" v-model="searchType">
+                <select
+                    class="select"
+                    v-model="searchType"
+                    @change="clearResult"
+                >
                     <option value="date">날짜 (단일)</option>
                     <option value="range">날짜 (범위)</option>
                     <option value="name">꽃 이름</option>
@@ -96,45 +100,58 @@
                 <input
                     type="text"
                     id="search"
+                    v-model="searchWord"
                     v-else
                     placeholder="한글로 작성해 주세요."
+                    @keydown="searchByEnter"
                 />
             </fieldset>
-            <button
-                type="button"
-                @click="
-                    searchType !== 'date' ? showResult() : redirectToResult()
-                "
-                class="button search"
-            >
+            <button type="button" @click="showResult" class="button search">
                 검색
             </button>
         </form>
-        <section v-if="resultArr.length !== 0 && searchType !== 'date'">
+        <section v-if="searchType !== 'date'">
             <h3 class="a11yHidden">검색 결과</h3>
-            <ol class="resultSection">
-                <li v-for="num in sliceResult()" :key="num">
-                    <FlowerResult
-                        @redirect="redirectToResult"
-                        :searchFor="num"
-                    />
-                </li>
-            </ol>
-            <button
-                type="button"
-                class="button more"
-                v-if="resultArr.length >= 10 * resultCount"
-                @click="resultCount++"
-            >
-                더보기
-            </button>
+            <template v-if="isSearching">
+                <Loading />
+            </template>
+            <template v-else>
+                <ol class="resultSection">
+                    <template v-if="searchType === 'range'">
+                        <li v-for="num in sliceResult()" :key="num">
+                            <FlowerResult
+                                @redirect="redirectToResult"
+                                :searchFor="num"
+                            />
+                        </li>
+                    </template>
+                    <template v-else>
+                        <li v-for="(result, i) in sliceResult()" :key="i">
+                            <FlowerResult
+                                @redirect="redirectToResult"
+                                :resultElem="result"
+                            />
+                        </li>
+                    </template>
+                </ol>
+                <button
+                    type="button"
+                    class="button more"
+                    v-if="resultArr.length > 10 * resultCount"
+                    @click="resultCount++"
+                >
+                    더보기
+                </button>
+            </template>
         </section>
     </article>
 </template>
 
 <script lang="ts">
 import FlowerResult from "./FlowerResult.vue";
+import Loading from "./Loading.vue";
 import { mapState } from "vuex";
+import { getDataByLang } from "@/store";
 
 export default {
     data(): unknown {
@@ -149,6 +166,8 @@ export default {
             endMonth: 0,
             endDay: 1,
             resultCount: 1,
+            searchWord: "",
+            isSearching: false,
         };
     },
     computed: {
@@ -160,6 +179,25 @@ export default {
         },
     },
     methods: {
+        searchByEnter(e: KeyboardEvent): void {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                this.showResult();
+            }
+        },
+        showResult(): void {
+            switch (this.searchType) {
+                case "date":
+                    this.redirectToResult();
+                    break;
+                case "range":
+                    this.showResultByDate();
+                    break;
+                case "lang":
+                    this.showResultByLang(this.searchWord);
+                    break;
+            }
+        },
         redirectToResult(dataNo = 0): void {
             if (dataNo === 0) {
                 dataNo = this.calculateDataNo(this.startMonth, this.startDay);
@@ -168,10 +206,9 @@ export default {
                 path: "/info/" + dataNo,
             });
         },
-        showResult(): void {
-            this.resultCount = 1;
-            this.resultArr.length = 0;
-            this.resultArr = [];
+        showResultByDate(): void {
+            this.clearResult();
+            this.isSearching = true;
             const startDate = this.calculateDataNo(
                 this.startMonth,
                 this.startDay
@@ -190,6 +227,19 @@ export default {
                     this.resultArr.push(i);
                 }
             }
+            this.isSearching = false;
+        },
+        async showResultByLang(word: string): Promise<void> {
+            this.clearResult();
+            this.isSearching = true;
+            if (!word.trim()) {
+                return;
+            }
+            const result = await getDataByLang(word);
+            this.resultArr = Array.from(
+                result.getElementsByTagName("result")
+            ).reverse();
+            this.isSearching = false;
         },
         sliceResult(): Array<number> {
             return this.resultArr.slice(0, 10 * this.resultCount);
@@ -201,9 +251,15 @@ export default {
                     .reduce((a: number, b: number) => a + b, 0) + day
             );
         },
+        clearResult(): void {
+            this.resultCount = 1;
+            this.resultArr.length = 0;
+            this.resultArr = [];
+        },
     },
     components: {
         FlowerResult,
+        Loading,
     },
 };
 </script>
@@ -268,6 +324,9 @@ export default {
                 }
             }
         }
+    }
+    .loadingWrapper {
+        height: 300px;
     }
     .resultSection {
         width: 100%;

@@ -60,6 +60,11 @@ export const getDataByDate = async (dataNo: number): Promise<Document> => {
     return await getData(queryString);
 };
 
+export const getDataByLang = async (lang: string): Promise<Document> => {
+    const queryString = `/selectTodayFlowerList01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&numOfRows=366&searchType=4&searchWord=${lang}`;
+    return await getData(queryString);
+};
+
 export const SET_FLOWER = "SET_FLOWER";
 export const GET_FLOWER_DATA = "GET_FLOWER_DATA";
 export const SET_DEFAULT_COLOR = "SET_DEFAULT_COLOR";

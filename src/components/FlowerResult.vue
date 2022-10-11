@@ -2,7 +2,11 @@
     <article
         class="resultContainer"
         @click="
-            flowerName && month && day && img && $emit('redirect', searchFor)
+            flowerName &&
+                month &&
+                day &&
+                img &&
+                $emit('redirect', searchFor || dataNo)
         "
     >
         <template v-if="flowerName && month && day && img">
@@ -25,31 +29,42 @@ import { mapState } from "vuex";
 import Loading from "./Loading.vue";
 
 export default {
-    props: ["searchFor"],
+    props: ["searchFor", "resultElem"],
     data(): unknown {
         return {
             month: 0,
             day: 0,
             flowerName: "",
             img: "",
+            dataNo: 0,
         };
     },
     computed: {
         ...mapState(["defaultColor"]),
     },
-    methods: {
-        async returnData(dataNo: number): Promise<Document | undefined> {
-            return await getDataByDate(dataNo);
-        },
-    },
     async mounted(): void {
-        const result = await this.returnData(this.searchFor);
-        if (result) {
+        if (this.searchFor) {
+            const result = await getDataByDate(this.searchFor);
+            if (result) {
+                this.flowerName =
+                    result.getElementsByTagName("flowNm")[0].textContent;
+                this.month =
+                    result.getElementsByTagName("fMonth")[0].textContent;
+                this.day = result.getElementsByTagName("fDay")[0].textContent;
+                this.img =
+                    result.getElementsByTagName("imgUrl1")[0].textContent;
+            }
+        } else {
             this.flowerName =
-                result.getElementsByTagName("flowNm")[0].textContent;
-            this.month = result.getElementsByTagName("fMonth")[0].textContent;
-            this.day = result.getElementsByTagName("fDay")[0].textContent;
-            this.img = result.getElementsByTagName("imgUrl1")[0].textContent;
+                this.resultElem.getElementsByTagName("flowNm")[0].textContent;
+            this.month =
+                this.resultElem.getElementsByTagName("fMonth")[0].textContent;
+            this.day =
+                this.resultElem.getElementsByTagName("fDay")[0].textContent;
+            this.img =
+                this.resultElem.getElementsByTagName("imgUrl1")[0].textContent;
+            this.dataNo =
+                this.resultElem.getElementsByTagName("dataNo")[0].textContent;
         }
     },
     components: {
@@ -62,7 +77,6 @@ export default {
 .resultContainer {
     .loadingWrapper {
         padding-top: 8px;
-        height: 86px;
         text-align: left;
         gap: 4px;
         align-items: flex-start;
@@ -71,6 +85,7 @@ export default {
         }
     }
     @include container(320, 0);
+    height: 86px;
     border: 2px solid $GRAY;
     cursor: pointer;
     @include flex(row, 20, normal, center);
