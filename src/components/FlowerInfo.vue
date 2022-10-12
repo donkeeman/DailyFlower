@@ -87,6 +87,7 @@
 import { mapState } from "vuex";
 import { GET_FLOWER_DATA } from "@/store";
 import Loading from "./Loading.vue";
+import { StyleValue } from "@vue/runtime-dom";
 export default {
     data(): unknown {
         return {
@@ -109,7 +110,7 @@ export default {
                 return "/info/" + (parseInt(this.$route.params.dataNo) + 1);
             }
         },
-        setFontColor(): unknown {
+        setFontColor(): StyleValue {
             return {
                 "--font-color": this.defaultColor.font,
             };

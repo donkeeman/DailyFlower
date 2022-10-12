@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts">
+import { StyleValue } from "@vue/runtime-dom";
 import { mapState } from "vuex";
 
 export default {
@@ -29,12 +30,12 @@ export default {
         ...mapState(["defaultColor"]),
         getRandom(): string {
             let randomNo = Math.floor(Math.random() * 366) + 1;
-            if (randomNo === this.$route.params.dataNo) {
+            if (randomNo === parseInt(this.$route.params.dataNo)) {
                 randomNo = Math.floor(Math.random() * 366) + 1;
             }
             return "/info/" + randomNo;
         },
-        setBackgroundColor(): unknown {
+        setBackgroundColor(): StyleValue {
             return {
                 "--background-color": this.defaultColor.background,
             };
