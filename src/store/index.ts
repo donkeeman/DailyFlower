@@ -60,13 +60,13 @@ export const getDataByDate = async (dataNo: number): Promise<Document> => {
     return await getData(queryString);
 };
 
-export const getDataByKorName = async (lang: string): Promise<Document> => {
-    const queryString = `/selectTodayFlowerList01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&numOfRows=366&searchType=1&searchWord=${lang}`;
+export const getDataByKorName = async (name: string): Promise<Document> => {
+    const queryString = `/selectTodayFlowerList01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&numOfRows=366&searchType=1&searchWord=${name}`;
     return await getData(queryString);
 };
 
-export const getDataByEngName = async (lang: string): Promise<Document> => {
-    const queryString = `/selectTodayFlowerList01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&numOfRows=366&searchType=3&searchWord=${lang}`;
+export const getDataByEngName = async (name: string): Promise<Document> => {
+    const queryString = `/selectTodayFlowerList01?serviceKey=${process.env.VUE_APP_SERVICE_KEY}&numOfRows=366&searchType=3&searchWord=${name}`;
     return await getData(queryString);
 };
 
