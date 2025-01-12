@@ -148,7 +148,6 @@ import FlowerResult from "./FlowerResult.vue";
 import Loading from "./Loading.vue";
 import { mapState } from "vuex";
 import { getDataByKorName, getDataByEngName, getDataByLang } from "@/store";
-import { StyleValue } from "@vue/runtime-dom";
 
 export default {
     data(): unknown {
@@ -169,7 +168,7 @@ export default {
     },
     computed: {
         ...mapState(["defaultColor"]),
-        setFontColor(): StyleValue {
+        setFontColor() {
             return {
                 "--font-color": this.defaultColor.font,
             };

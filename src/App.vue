@@ -36,7 +36,6 @@ import FlowerInfo from "./components/FlowerInfo.vue";
 import FlowerSearch from "./components/FlowerSearch.vue";
 import NotFound from "./components/NotFound.vue";
 import { mapState } from "vuex";
-import { StyleValue } from "@vue/runtime-dom";
 export default {
     components: {
         Header,
@@ -50,7 +49,7 @@ export default {
         getPath(): string {
             return this.$route.path.split("/")[1];
         },
-        setColor(): StyleValue {
+        setColor() {
             return {
                 "--font-color": this.defaultColor.font,
                 "--background-color": this.defaultColor.background,

@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts">
-import { StyleValue } from "@vue/runtime-dom";
 import { mapState } from "vuex";
 
 export default {
@@ -35,7 +34,7 @@ export default {
             }
             return "/info/" + randomNo;
         },
-        setBackgroundColor(): StyleValue {
+        setBackgroundColor() {
             return {
                 "--background-color": this.defaultColor.background,
             };
